@@ -1,0 +1,12 @@
+D:\Projects\University\Anul 3\TMPS_Labs\Lab_0\Lab_0.Domain\bin\Debug\net9.0\Lab_0.Domain.deps.json
+D:\Projects\University\Anul 3\TMPS_Labs\Lab_0\Lab_0.Domain\bin\Debug\net9.0\Lab_0.Domain.dll
+D:\Projects\University\Anul 3\TMPS_Labs\Lab_0\Lab_0.Domain\bin\Debug\net9.0\Lab_0.Domain.pdb
+D:\Projects\University\Anul 3\TMPS_Labs\Lab_0\Lab_0.Domain\obj\Debug\net9.0\Lab_0.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\University\Anul 3\TMPS_Labs\Lab_0\Lab_0.Domain\obj\Debug\net9.0\Lab_0.Domain.AssemblyInfoInputs.cache
+D:\Projects\University\Anul 3\TMPS_Labs\Lab_0\Lab_0.Domain\obj\Debug\net9.0\Lab_0.Domain.AssemblyInfo.cs
+D:\Projects\University\Anul 3\TMPS_Labs\Lab_0\Lab_0.Domain\obj\Debug\net9.0\Lab_0.Domain.csproj.CoreCompileInputs.cache
+D:\Projects\University\Anul 3\TMPS_Labs\Lab_0\Lab_0.Domain\obj\Debug\net9.0\Lab_0.Domain.sourcelink.json
+D:\Projects\University\Anul 3\TMPS_Labs\Lab_0\Lab_0.Domain\obj\Debug\net9.0\Lab_0.Domain.dll
+D:\Projects\University\Anul 3\TMPS_Labs\Lab_0\Lab_0.Domain\obj\Debug\net9.0\refint\Lab_0.Domain.dll
+D:\Projects\University\Anul 3\TMPS_Labs\Lab_0\Lab_0.Domain\obj\Debug\net9.0\Lab_0.Domain.pdb
+D:\Projects\University\Anul 3\TMPS_Labs\Lab_0\Lab_0.Domain\obj\Debug\net9.0\ref\Lab_0.Domain.dll
