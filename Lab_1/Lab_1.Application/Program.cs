@@ -83,6 +83,7 @@ class Program
         {
             new UrbanLogisticsFactory(),
             new RuralLogisticsFactory(),
+            
             new InternationalLogisticsFactory()
         };
 
