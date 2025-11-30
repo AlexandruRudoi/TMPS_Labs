@@ -11,7 +11,7 @@ public class DeliveredState : IShipmentState
     public string StateName => "Delivered";
     public string[] AllowedActions => new[] { "Process" };
 
-    public void Process(ShipmentContext context)
+    public void Process(IShipmentContext context)
     {
         Console.ForegroundColor = ConsoleColor.Green;
         Console.WriteLine($"  [{StateName}] Shipment successfully delivered!");
@@ -21,14 +21,14 @@ public class DeliveredState : IShipmentState
         Console.ResetColor();
     }
 
-    public void MoveToNext(ShipmentContext context)
+    public void MoveToNext(IShipmentContext context)
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"  [{StateName}] Already in final state - no next state available");
         Console.ResetColor();
     }
 
-    public void Cancel(ShipmentContext context)
+    public void Cancel(IShipmentContext context)
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine($"  [{StateName}] ERROR: Cannot cancel delivered shipment!");

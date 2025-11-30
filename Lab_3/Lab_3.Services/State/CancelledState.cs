@@ -11,7 +11,7 @@ public class CancelledState : IShipmentState
     public string StateName => "Cancelled";
     public string[] AllowedActions => new[] { "Process" };
 
-    public void Process(ShipmentContext context)
+    public void Process(IShipmentContext context)
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine($"  [{StateName}] Shipment has been cancelled");
@@ -21,7 +21,7 @@ public class CancelledState : IShipmentState
         Console.ResetColor();
     }
 
-    public void MoveToNext(ShipmentContext context)
+    public void MoveToNext(IShipmentContext context)
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine($"  [{StateName}] ERROR: Cannot move from cancelled state");
@@ -29,7 +29,7 @@ public class CancelledState : IShipmentState
         Console.ResetColor();
     }
 
-    public void Cancel(ShipmentContext context)
+    public void Cancel(IShipmentContext context)
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
         Console.WriteLine($"  [{StateName}] Shipment is already cancelled");

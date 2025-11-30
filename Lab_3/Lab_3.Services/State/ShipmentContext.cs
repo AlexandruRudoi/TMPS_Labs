@@ -6,7 +6,7 @@ namespace Lab_3.Services.State;
 ///     Context class that maintains current state and delegates behavior
 ///     Part of the State behavioral pattern
 /// </summary>
-public class ShipmentContext
+public class ShipmentContext : IShipmentContext
 {
     private IShipmentState _currentState;
     public string ShipmentId { get; }

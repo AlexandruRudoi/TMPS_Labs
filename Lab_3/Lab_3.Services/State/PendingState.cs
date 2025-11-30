@@ -11,7 +11,7 @@ public class PendingState : IShipmentState
     public string StateName => "Pending";
     public string[] AllowedActions => new[] { "Process", "MoveToNext", "Cancel" };
 
-    public void Process(ShipmentContext context)
+    public void Process(IShipmentContext context)
     {
         Console.WriteLine($"  [{StateName}] Validating shipment details...");
         Console.WriteLine($"  [{StateName}] Assigning vehicle and driver...");
@@ -21,13 +21,13 @@ public class PendingState : IShipmentState
         Console.ResetColor();
     }
 
-    public void MoveToNext(ShipmentContext context)
+    public void MoveToNext(IShipmentContext context)
     {
         Console.WriteLine($"  [{StateName}] Moving to In-Transit state...");
         context.SetState(new InTransitState());
     }
 
-    public void Cancel(ShipmentContext context)
+    public void Cancel(IShipmentContext context)
     {
         Console.WriteLine($"  [{StateName}] Shipment cancelled before pickup");
         context.SetState(new CancelledState());

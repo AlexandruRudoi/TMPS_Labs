@@ -11,7 +11,7 @@ public class InTransitState : IShipmentState
     public string StateName => "In-Transit";
     public string[] AllowedActions => new[] { "Process", "MoveToNext", "Cancel" };
 
-    public void Process(ShipmentContext context)
+    public void Process(IShipmentContext context)
     {
         Console.WriteLine($"  [{StateName}] Tracking shipment location...");
         Console.WriteLine($"  [{StateName}] Vehicle en route to destination...");
@@ -21,13 +21,13 @@ public class InTransitState : IShipmentState
         Console.ResetColor();
     }
 
-    public void MoveToNext(ShipmentContext context)
+    public void MoveToNext(IShipmentContext context)
     {
         Console.WriteLine($"  [{StateName}] Arrived at delivery hub, moving to Out-for-Delivery...");
         context.SetState(new OutForDeliveryState());
     }
 
-    public void Cancel(ShipmentContext context)
+    public void Cancel(IShipmentContext context)
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine($"  [{StateName}] WARNING: Cancellation requires vehicle return");

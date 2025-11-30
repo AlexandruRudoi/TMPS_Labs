@@ -11,7 +11,7 @@ public class OutForDeliveryState : IShipmentState
     public string StateName => "Out-for-Delivery";
     public string[] AllowedActions => new[] { "Process", "MoveToNext" };
 
-    public void Process(ShipmentContext context)
+    public void Process(IShipmentContext context)
     {
         Console.WriteLine($"  [{StateName}] Driver has shipment on delivery route...");
         Console.WriteLine($"  [{StateName}] Next stop in 15 minutes...");
@@ -21,14 +21,14 @@ public class OutForDeliveryState : IShipmentState
         Console.ResetColor();
     }
 
-    public void MoveToNext(ShipmentContext context)
+    public void MoveToNext(IShipmentContext context)
     {
         Console.WriteLine($"  [{StateName}] Customer signature received!");
         Console.WriteLine($"  [{StateName}] Moving to Delivered state...");
         context.SetState(new DeliveredState());
     }
 
-    public void Cancel(ShipmentContext context)
+    public void Cancel(IShipmentContext context)
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine($"  [{StateName}] ERROR: Cannot cancel shipment - already out for delivery!");

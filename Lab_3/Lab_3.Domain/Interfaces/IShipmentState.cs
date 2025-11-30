@@ -9,17 +9,17 @@ public interface IShipmentState
     /// <summary>
     ///     Process the shipment in current state
     /// </summary>
-    void Process(ShipmentContext context);
+    void Process(IShipmentContext context);
 
     /// <summary>
     ///     Move to next state in the lifecycle
     /// </summary>
-    void MoveToNext(ShipmentContext context);
+    void MoveToNext(IShipmentContext context);
 
     /// <summary>
     ///     Cancel the shipment from current state
     /// </summary>
-    void Cancel(ShipmentContext context);
+    void Cancel(IShipmentContext context);
 
     /// <summary>
     ///     Get state name
