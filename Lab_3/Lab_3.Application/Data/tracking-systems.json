@@ -1,0 +1,121 @@
+{
+  "trackingSystems": [
+    {
+      "systemType": "GPS",
+      "systemName": "GPS Tracking System",
+      "shipmentId": "SHP-TRACK-001",
+      "trackingEntries": [
+        {
+          "timestamp": "2024-11-30T08:00:00",
+          "location": "Warehouse A - Loading Dock 3",
+          "coordinates": { "lat": 40.7128, "lng": -74.0060 },
+          "status": "Loaded"
+        },
+        {
+          "timestamp": "2024-11-30T09:15:00",
+          "location": "Interstate I-95 North",
+          "coordinates": { "lat": 40.8500, "lng": -73.9500 },
+          "status": "In Transit"
+        },
+        {
+          "timestamp": "2024-11-30T10:30:00",
+          "location": "Distribution Center B",
+          "coordinates": { "lat": 40.9800, "lng": -73.8200 },
+          "status": "In Transit"
+        }
+      ],
+      "estimatedDeliveryHours": 4
+    },
+    {
+      "systemType": "RFID",
+      "systemName": "RFID Tracking System",
+      "shipmentId": "SHP-TRACK-001",
+      "trackingEntries": [
+        {
+          "timestamp": "2024-11-30T08:05:00",
+          "location": "Gate A - Checkpoint 1",
+          "tagId": "RFID-8472-ACC1",
+          "status": "Scanned"
+        },
+        {
+          "timestamp": "2024-11-30T09:20:00",
+          "location": "Highway Toll Plaza 5",
+          "tagId": "RFID-8472-ACC1",
+          "status": "Scanned"
+        },
+        {
+          "timestamp": "2024-11-30T10:35:00",
+          "location": "Distribution Hub - Entry Point",
+          "tagId": "RFID-8472-ACC1",
+          "status": "Scanned"
+        }
+      ],
+      "estimatedDeliveryHours": 4
+    },
+    {
+      "systemType": "Barcode",
+      "systemName": "Barcode Tracking System",
+      "shipmentId": "SHP-TRACK-001",
+      "trackingEntries": [
+        {
+          "timestamp": "2024-11-30T08:10:00",
+          "location": "Warehouse A - Scanner Station 12",
+          "barcode": "BC-SHP001-20241130",
+          "status": "Scanned"
+        },
+        {
+          "timestamp": "2024-11-30T09:25:00",
+          "location": "Mobile Scanner - Truck VT-442",
+          "barcode": "BC-SHP001-20241130",
+          "status": "Scanned"
+        },
+        {
+          "timestamp": "2024-11-30T10:40:00",
+          "location": "Distribution Center - Sorting Line 3",
+          "barcode": "BC-SHP001-20241130",
+          "status": "Scanned"
+        }
+      ],
+      "estimatedDeliveryHours": 4
+    }
+  ],
+  "shipments": [
+    {
+      "id": "SHP-INTEGRATED-001",
+      "description": "Priority Medical Supplies",
+      "priority": "Urgent",
+      "packages": [
+        {
+          "id": "PKG-INT-001",
+          "description": "Medical Supplies",
+          "weight": 25.0,
+          "requiresRefrigeration": true
+        },
+        {
+          "id": "PKG-INT-002",
+          "description": "Lab Equipment",
+          "weight": 45.0,
+          "requiresRefrigeration": false
+        },
+        {
+          "id": "PKG-INT-003",
+          "description": "Documents",
+          "weight": 2.0,
+          "requiresRefrigeration": false
+        },
+        {
+          "id": "PKG-INT-004",
+          "description": "Vaccines",
+          "weight": 5.0,
+          "requiresRefrigeration": true
+        }
+      ],
+      "vehicleId": "V401",
+      "driverId": "D401",
+      "routeId": "ROUTE-INT-001",
+      "scheduledHours": 4,
+      "insuranceValue": 10000,
+      "notes": "Priority delivery - medical supplies on board"
+    }
+  ]
+}
