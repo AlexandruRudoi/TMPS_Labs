@@ -1,4 +1,4 @@
-# **Structural Design Patterns Implementation in Logistics System**
+# **Behavioral Design Patterns Implementation in Logistics System**
 
 ### **Course**: Software Design Techniques and Mechanisms
 
@@ -8,38 +8,40 @@
 
 ## **Theory**
 
-This project demonstrates **7 Structural Design Patterns** in a logistics/dispatch system using Clean Architecture. Structural patterns explain how to assemble objects and classes into larger structures while keeping these structures flexible and efficient.
+This project demonstrates **3 Behavioral Design Patterns** in a logistics/dispatch system using Clean Architecture. Behavioral patterns are concerned with algorithms and the assignment of responsibilities between objects. They describe not just patterns of objects or classes but also the patterns of communication between them.
 
-**Note**: This system also includes 6 creational patterns (Singleton, Abstract Factory, Factory Method, Builder, Prototype, Object Pool) from Lab 1 as the foundation for object creation, but this lab focuses specifically on structural patterns.
+### **Behavioral Design Patterns Overview**
 
-### **Structural Design Patterns (7)**
+**Behavioral Design Patterns** focus on communication between objects, what goes on between objects and how they operate together. They characterize the ways in which classes or objects interact and distribute responsibility:
 
-**Structural Design Patterns** focus on simplifying relationships between entities, composing objects into larger structures, and ensuring flexibility in how classes and objects are combined:
+### **Available Behavioral Patterns:**
 
-### **1. Adapter Pattern**
-Allows incompatible interfaces to work together by **wrapping an existing class with a new interface**. Enables integration of third-party systems without modifying their code.
+1. **Chain of Responsibility** - Pass requests along a chain of handlers
+2. **Command** - Encapsulate requests as objects
+3. **Interpreter** - Define a grammatical representation for a language
+4. **Iterator** - Access elements of a collection sequentially
+5. **Mediator** - Define simplified communication between classes
+6. **Memento** - Capture and restore an object's internal state
+7. **Observer** - Define a subscription mechanism to notify multiple objects
+8. **State** - Alter an object's behavior when its internal state changes
+9. **Strategy** - Define a family of algorithms and make them interchangeable
+10. **Template Method** - Define skeleton of algorithm, defer steps to subclasses
+11. **Visitor** - Separate algorithms from objects on which they operate
 
-### **2. Decorator Pattern**
-Attaches **additional responsibilities to objects dynamically** without altering their structure. Provides a flexible alternative to subclassing for extending functionality.
+### **Implemented Patterns (Lab 3 Focus):**
 
-### **3. Composite Pattern**
-Composes objects into **tree structures to represent part-whole hierarchies**. Allows clients to treat individual objects and compositions uniformly.
+### **1. Observer Pattern**
+Defines a **one-to-many dependency** between objects so that when one object changes state, all its dependents are notified and updated automatically. Perfect for event handling and notification systems.
 
-### **4. Facade Pattern**
-Provides a **simplified interface to a complex subsystem**. Reduces dependencies and makes the subsystem easier to use.
+### **2. Strategy Pattern**
+Defines a **family of algorithms**, encapsulates each one, and makes them interchangeable. Strategy lets the algorithm vary independently from clients that use it.
 
-### **5. Bridge Pattern**
-Separates an **abstraction from its implementation** so they can vary independently. Useful when both abstractions and implementations need to be extended.
-
-### **6. Flyweight Pattern**
-Uses sharing to support **large numbers of fine-grained objects efficiently**. Reduces memory consumption by sharing common state between objects.
-
-### **7. Proxy Pattern**
-Provides a **surrogate or placeholder for another object** to control access. Useful for lazy initialization, access control, logging, or caching.
+### **3. State Pattern**
+Allows an object to **alter its behavior when its internal state changes**. The object will appear to change its class. State-specific behavior is encapsulated in separate state classes.
 
 ---
 
-The implementation uses **Clean Architecture** with clear separation of concerns across multiple layers, demonstrating how structural patterns create flexible, maintainable, and efficient software systems by managing object relationships and compositions effectively.
+The implementation uses **Clean Architecture** with clear separation of concerns across multiple layers, demonstrating how behavioral patterns enable flexible communication, runtime algorithm selection, and elegant state management in complex software systems.
 
 ---
 
@@ -50,25 +52,20 @@ The implementation uses **Clean Architecture** with clear separation of concerns
   - **Services Layer**: Pattern implementations and business logic  
   - **Application Layer**: Pattern demonstrations and orchestration
 
-- Demonstrate **7 Structural Patterns** (Lab 2 Focus):
-  - **Adapter**: Unifying third-party tracking systems (GPS, RFID, Barcode)
-  - **Decorator**: Adding dynamic features to shipments (insurance, priority, temperature control, etc.)
-  - **Composite**: Managing hierarchical package groupings (containers and packages)
-  - **Facade**: Simplifying complex logistics operations through unified interface
-  - **Bridge**: Separating vehicle operations from control systems implementations
-  - **Flyweight**: Sharing package type data across many packages to optimize memory
-  - **Proxy**: Controlling access to shipment reports (lazy loading, protection, caching)
+- Demonstrate **3 Behavioral Patterns** (Lab 3 Focus):
+  - **Observer**: Shipment status notification system with multiple observer types (Email, SMS, Dashboard, Logging)
+  - **Strategy**: Dynamic delivery pricing with interchangeable strategies (Standard, Express, Economy, Overnight)
+  - **State**: Shipment lifecycle state machine with proper state transitions (Pending → In-Transit → Out-for-Delivery → Delivered/Cancelled)
 
-- Foundation: **6 Creational Patterns** (from Lab 1):
-  - Singleton, Abstract Factory, Factory Method, Builder, Prototype, Object Pool provide the object creation infrastructure
+- Foundation: **7 Structural Patterns** (from Lab 2) and **6 Creational Patterns** (from Lab 1) provide the underlying architecture
 
 ---
 
 ## **Implementation Description**
 
-My logistics/dispatch system implements **7 structural design patterns** (Lab 2) built on top of a foundation of 6 creational patterns (Lab 1). The system uses three architectural layers:
+My logistics/dispatch system implements **3 behavioral design patterns** (Lab 3) built on top of a foundation of structural and creational patterns from previous labs. The system uses three architectural layers:
 
-### **1️⃣ Domain Layer (`Lab_2.Domain`)**
+### **1️⃣ Domain Layer (`Lab_3.Domain`)**
 
 Contains the core business entities, contracts, and type definitions:
 
@@ -77,94 +74,73 @@ Contains the core business entities, contracts, and type definitions:
 - **`DeliveryTruck`**, **`CargoTruck`**, **`CargoShip`**, **`ContainerVessel`**, **`CargoPlane`**, **`Drone`**: Concrete vehicles
 - **`Driver`**, **`Package`**, **`Route`**, **`Shipment`**: Supporting entities
 
-#### **Interfaces for Structural Patterns:**
-- **`ITrackingSystem`**: Adapter pattern - unified tracking interface
-- **`IShipmentComponent`**: Decorator pattern - dynamic enhancements
-- **`IPackageComponent`**: Composite pattern - hierarchical structures
-- **`IVehicleControl`**: Bridge pattern - control system interface
-- **`IShipmentReport`**: Proxy pattern - report access control
-
-#### **Interfaces for Creational Patterns (Foundation):**
-- `ILogisticsFactory`, `IVehicleFactory`, `IShipmentBuilder`, `IRoutePrototype`, `IResourcePool<T>`, `ILogisticsConfig`
+#### **Interfaces:**
+- **Behavioral Pattern Interfaces** (Lab 3 focus):
+  - `IShipmentObserver` - Observer pattern interface for status notifications
+  - `IPricingStrategy` - Strategy pattern interface for pricing algorithms
+  - `IShipmentState` - State pattern interface for lifecycle states
+- **Structural Pattern Interfaces** (Lab 2) - `ITrackingSystem`, `IShipmentComponent`, `IPackageComponent`, `IVehicleControl`, `IShipmentReport`
+- **Creational Pattern Interfaces** (Lab 1) - `ILogisticsFactory`, `IVehicleFactory`, `IShipmentBuilder`, `IRoutePrototype`, `IResourcePool<T>`
 
 #### **Enums:**
 Seven enums in separate files: `VehicleType`, `VehicleStatus`, `DriverLicenseType`, `DriverStatus`, `PackagePriority`, `ShipmentStatus`, `RouteType`
 
-```csharp
-/// <summary>
-/// Factory for creating families of related logistics objects for a specific region
-/// </summary>
-public interface ILogisticsFactory
-{
-    Vehicle CreateStandardVehicle(string id, string identifier);
-    Vehicle CreateHeavyVehicle(string id, string identifier);
-    Vehicle CreateLightVehicle(string id, string identifier);
-    Driver CreateDriver(string id, string name, DriverLicenseType licenseType);
-    string GetRegion();
-    decimal GetRegionalFuelMultiplier();
-}
-```
+---
+
+### **2️⃣ Services Layer (`Lab_3.Services`)**
+
+Contains implementations of **3 behavioral patterns** (this lab's focus) plus structural and creational patterns from previous labs:
+
+#### **BEHAVIORAL PATTERNS (Lab 3 - Main Focus):**
+
+**OBSERVER PATTERN - Shipment Status Notifications:**
+- **`IShipmentObserver`** (Domain.Interfaces): Observer interface for status change notifications
+- **`ShipmentTracker`**: Subject that maintains list of observers and notifies them
+- **Concrete Observers**:
+  - **`EmailNotificationObserver`**: Sends email notifications
+  - **`SmsNotificationObserver`**: Sends SMS messages
+  - **`DashboardObserver`**: Updates monitoring dashboard
+  - **`LoggingObserver`**: Maintains audit trail logs
+
+**STRATEGY PATTERN - Dynamic Pricing:**
+- **`IPricingStrategy`** (Domain.Interfaces): Strategy interface for price calculation
+- **`DeliveryPricingContext`**: Context class that uses a strategy
+- **Concrete Strategies**:
+  - **`StandardPricingStrategy`**: Balanced pricing for regular deliveries
+  - **`ExpressPricingStrategy`**: Premium rates for fast delivery
+  - **`EconomyPricingStrategy`**: Budget-friendly flexible delivery
+  - **`OvernightPricingStrategy`**: Premium overnight delivery rates
+
+**STATE PATTERN - Shipment Lifecycle:**
+- **`IShipmentState`** (Domain.Interfaces): State interface defining state-specific behavior
+- **`ShipmentContext`**: Context maintaining current state
+- **Concrete States**:
+  - **`PendingState`**: Initial state, shipment being prepared
+  - **`InTransitState`**: Shipment in transport
+  - **`OutForDeliveryState`**: With delivery driver
+  - **`DeliveredState`**: Final successful state (terminal)
+  - **`CancelledState`**: Cancelled shipment (terminal)
 
 ---
 
-### **2️⃣ Services Layer (`Lab_2.Services`)**
-
-Contains implementations of **7 structural patterns** (this lab's focus) plus 6 creational patterns (foundation):
-
-#### **STRUCTURAL PATTERNS (Lab 2 - Main Focus):**
-
-**ADAPTER PATTERN - Third-Party Integration:**
-- **`GpsTrackingSystem`**, **`RfidTrackingSystem`**, **`BarcodeTrackingSystem`**: Legacy systems with incompatible interfaces
-- **`GpsAdapter`**, **`RfidAdapter`**, **`BarcodeAdapter`**: Adapters implementing unified `ITrackingSystem` interface
-
-**DECORATOR PATTERN - Dynamic Enhancements:**
-- **`BaseShipment`**: Concrete component implementing `IShipmentComponent`
-- **5 Decorators**: `InsuranceDecorator`, `PriorityDecorator`, `TemperatureControlDecorator`, `FragileHandlingDecorator`, `SignatureRequiredDecorator`
-
-**COMPOSITE PATTERN - Hierarchical Structures:**
-- **`PackageLeaf`**: Individual package (leaf node)
-- **`PackageContainer`**: Container holding packages/containers (composite node)
-- **`PackageCompositeBuilder`**: Fluent builder for constructing hierarchies
-
-**FACADE PATTERN - Simplified Interface:**
-- **`LogisticsFacade`**: Unified interface coordinating all subsystems (factories, pools, builders, tracking)
-
-**BRIDGE PATTERN - Abstraction/Implementation Separation:**
-- **4 Implementors**: `ManualControl`, `AutomaticControl`, `AutonomousControl`, `RemoteControl`
-- **3 Abstractions**: `StartVehicleOperation`, `DriveVehicleOperation`, `StopVehicleOperation`
-
-**FLYWEIGHT PATTERN - Memory Optimization:**
-- **`PackageType`**: Flyweight storing intrinsic state (category, handling, material, fragility)
-- **`PackageTypeFactory`**: Factory managing shared instances
-- **`FlyweightPackage`**: Context with extrinsic state
-
-**PROXY PATTERN - Access Control:**
-- **`ShipmentReport`**: Real subject (heavy object)
-- **3 Proxies**: `LazyShipmentReportProxy` (virtual), `ProtectedShipmentReportProxy` (protection), `CachingShipmentReportProxy` (caching)
-
----
+#### **STRUCTURAL PATTERNS (Lab 2 - Foundation):**
+- Adapter, Decorator, Composite, Facade, Bridge, Flyweight, Proxy
 
 #### **CREATIONAL PATTERNS (Lab 1 - Foundation):**
-- Singleton (`LogisticsConfig`), Abstract Factory (3 regional factories), Factory Method (`VehicleFactory`)
-- Builder (`ShipmentBuilder`), Prototype (`RoutePrototypeManager`), Object Pool (`VehiclePool`, `DriverPool`)
+- Singleton, Abstract Factory, Factory Method, Builder, Prototype, Object Pool
 
 ---
 
-### **3️⃣ Application Layer (`Lab_2.Application`)**
+### **3️⃣ Application Layer (`Lab_3.Application`)**
 
-Demonstrates all **7 structural patterns** with detailed examples:
+Demonstrates all **3 behavioral patterns** with detailed examples:
 
-#### **Demonstration Methods (Focus on Structural Patterns):**
-7. **`DemonstrateAdapter()`**: Unifying GPS, RFID, and Barcode tracking systems
-8. **`DemonstrateDecorator()`**: Dynamically adding shipment features (insurance, priority, temperature)
-9. **`DemonstrateComposite()`**: Building hierarchical package structures
-10. **`DemonstrateFacade()`**: Simplified high-level logistics operations
-11. **`DemonstrateBridge()`**: Vehicle operations with different control systems
-12. **`DemonstrateFlyweight()`**: Memory-efficient package type sharing
-13. **`DemonstrateProxy()`**: Report access with lazy loading, protection, and caching
-14. **`DemonstrateIntegratedScenario()`**: All patterns working together in real workflow
+#### **Demonstration Methods (Focus on Behavioral Patterns):**
+1. **`DemonstrateObserver()`**: Shipment tracking notification system with multiple observers
+2. **`DemonstrateStrategy()`**: Dynamic pricing calculation with different strategies
+3. **`DemonstrateState()`**: Shipment lifecycle state machine with transitions
 
-*Note: Patterns 1-6 (Singleton, Abstract Factory, Factory Method, Builder, Prototype, Object Pool) provide the creational foundation but are not the focus of this lab.*
+*Note: Structural patterns (Lab 2) and Creational patterns (Lab 1) remain in the codebase as foundation but are not demonstrated in the main application flow for Lab 3.*
 
 ---
 
@@ -172,335 +148,215 @@ Demonstrates all **7 structural patterns** with detailed examples:
 
 ### **Why Logistics/Dispatch Domain?**
 
-The logistics domain was chosen because it naturally demonstrates the need for multiple creational patterns:
+The logistics domain was chosen because it naturally demonstrates the need for behavioral patterns:
 
-- **Complex object hierarchies**: Multi-modal transport (land/sea/air) requires flexible vehicle creation
-- **Resource management**: Expensive resources (vehicles, drivers) benefit from pooling
-- **Template-based operations**: Routes follow common patterns that can be cloned
-- **Regional variations**: Different regions require different logistics strategies
-- **Step-by-step construction**: Shipments have many components requiring careful assembly
+- **Event-driven notifications**: Shipments change status frequently, requiring notification to multiple parties
+- **Variable pricing algorithms**: Different delivery speeds and services require different pricing strategies
+- **State-dependent behavior**: Shipments have distinct lifecycle states with different allowed operations
+- **Complex workflows**: Real-world logistics involves coordination between multiple systems and stakeholders
 
 ### **Pattern Selection Rationale**
 
-**Focus: Structural Patterns (Lab 2)**
+**Focus: Behavioral Patterns (Lab 3)**
 
 | Pattern | Why Chosen | Alternative Considered |
 |---------|------------|----------------------|
-| **Adapter** | Third-party tracking systems have incompatible interfaces | Modify each system's code (violates OCP) |
-| **Decorator** | Shipment features should be added/removed dynamically | Subclass explosion (2^5 = 32 combinations!) |
-| **Composite** | Packages form natural hierarchies (boxes within boxes) | Separate handling logic (inconsistent) |
-| **Facade** | Subsystems are complex and tightly coupled | Expose all complexities (overwhelming) |
-| **Bridge** | Vehicle operations should work with any control system | Inheritance hierarchy (4×3 = 12 rigid classes) |
-| **Flyweight** | Many packages share common type characteristics | Store all data in each package (wasteful) |
-| **Proxy** | Reports are expensive to generate and need access control | Direct access (no lazy loading/protection) |
+| **Observer** | Shipment status changes need to notify multiple parties (customers, dashboards, logs) | Polling (inefficient, high latency) |
+| **Strategy** | Pricing varies based on delivery speed/service level | if-else chains (rigid, hard to extend) |
+| **State** | Shipments have clear lifecycle states with different behaviors | Status flags + conditionals (complex, error-prone) |
 
 ---
 
-## **Structural Patterns Implementation Details**
+## **Behavioral Patterns Implementation Details**
 
-This section details the **7 structural patterns** that are the focus of Lab 2:
+This section details the **3 behavioral patterns** that are the focus of Lab 3:
 
-### **1. Adapter Pattern - Third-Party Tracking System Integration**
+### **1. Observer Pattern - Shipment Status Notification System**
 
-**Purpose**: Make incompatible interfaces work together without modifying their source code
+**Purpose**: Define a one-to-many dependency where multiple observers are notified when the subject's state changes
 
-**Third-Party Systems (Adaptees)**:
-- **`GpsTrackingSystem`**: Returns `GpsCoordinates` objects
-- **`RfidTrackingSystem`**: Returns `RfidTag` objects  
-- **`BarcodeTrackingSystem`**: Returns `BarcodeData` objects
+**Subject**:
+- **`ShipmentTracker`**: Maintains list of observers, manages shipment status, notifies observers on changes
 
-**Adapters**:
-- **`GpsAdapter`**: Converts GPS coordinates to unified `ITrackingSystem` interface
-- **`RfidAdapter`**: Converts RFID tags to unified interface
-- **`BarcodeAdapter`**: Converts barcode data to unified interface
+**Observer Interface**:
+- **`IShipmentObserver`**: Common interface with `OnShipmentStatusChanged()` method
+
+**Concrete Observers** (4 types):
+- **`EmailNotificationObserver`**: Sends email notifications to specified address
+- **`SmsNotificationObserver`**: Sends SMS messages to phone number
+- **`DashboardObserver`**: Updates monitoring dashboard displays
+- **`LoggingObserver`**: Maintains audit trail with timestamps
 
 **Code Example**:
 ```csharp
-ITrackingSystem gpsTracker = new GpsAdapter(new GpsTrackingSystem());
-string location = gpsTracker.GetLocation("PKG-001");
-// Returns: "Location: 40.7128° N, 74.0060° W"
+// Create subject
+var tracker = new ShipmentTracker();
+
+// Create and attach observers
+tracker.Attach(new EmailNotificationObserver("customer@example.com"));
+tracker.Attach(new SmsNotificationObserver("+1-555-0123"));
+tracker.Attach(new DashboardObserver("MAIN-001"));
+tracker.Attach(new LoggingObserver());
+
+// Update status - all observers automatically notified!
+tracker.UpdateShipmentStatus("SHP-001", "In-Transit", "Distribution Center - Philadelphia");
+
+// Output:
+// [EMAIL] To: customer@example.com - Shipment SHP-001 is now 'In-Transit'
+// [SMS] To: +1-555-0123 - Shipment SHP-001 is now 'In-Transit' at Distribution Center
+// [DASHBOARD-MAIN-001] Shipment SHP-001 updated - Status: In-Transit
+// [LOG] [2025-11-30 14:30:22] Shipment SHP-001: Pending -> In-Transit @ Distribution Center
 ```
 
 **Key Features**:
-- Unified interface for three incompatible systems
-- No modification to existing third-party code
-- Easy to add new tracking system types
+- Dynamic observer attachment/detachment at runtime
+- Loose coupling between subject and observers
+- One status change triggers multiple notifications
+- Each observer handles notification in its own way
 
 **Benefits**:
-- Integrates legacy systems without breaking existing code
-- Follows Open/Closed Principle
-- Simplifies client code by providing consistent interface
+- Loose coupling - subject doesn't know concrete observer types
+- Open/Closed Principle - easy to add new observer types
+- Broadcast communication - one event notifies many
+- Runtime subscription management
 
 ---
 
-### **2. Decorator Pattern - Dynamic Shipment Enhancements**
+### **2. Strategy Pattern - Dynamic Delivery Pricing**
 
-**Purpose**: Add responsibilities to objects dynamically without modifying their code
+**Purpose**: Define a family of interchangeable algorithms and make them selectable at runtime
 
-**Base Component**:
-- **`BaseShipment`**: Concrete shipment with basic cost calculation
+**Context**:
+- **`DeliveryPricingContext`**: Uses a pricing strategy and allows strategy switching
 
-**Decorators** (5 types):
-- **`InsuranceDecorator`**: Adds 5% insurance cost
-- **`PriorityDecorator`**: Adds $50 priority handling fee
-- **`TemperatureControlDecorator`**: Adds climate control ($100 + $2/kg)
-- **`FragileHandlingDecorator`**: Adds special handling ($30 + $1/kg)
-- **`SignatureRequiredDecorator`**: Adds signature confirmation ($15)
+**Strategy Interface**:
+- **`IPricingStrategy`**: Common interface with `CalculatePrice()` method
+
+**Concrete Strategies** (4 types):
+- **`StandardPricingStrategy`**: Balanced pricing (weight × $2, distance × $0.5)
+- **`ExpressPricingStrategy`**: Premium fast delivery (weight × $3.5, distance × $1.2, +$25 surcharge)
+- **`EconomyPricingStrategy`**: Budget pricing (weight × $1.2, distance × $0.3, -15% discount)
+- **`OvernightPricingStrategy`**: Overnight premium (weight × $4, distance × $1.5, +$35 fee)
 
 **Code Example**:
 ```csharp
-IShipmentComponent shipment = new BaseShipment("SHP-001", "New York", "Los Angeles", 100, 500);
+var basePrice = 50m;
+var weight = 15m;    // kg
+var distance = 120m; // km
 
-// Stack decorators dynamically
-shipment = new InsuranceDecorator(shipment);
-shipment = new PriorityDecorator(shipment);
-shipment = new TemperatureControlDecorator(shipment, -18);
+// Create context with initial strategy
+var pricing = new DeliveryPricingContext(new StandardPricingStrategy());
+var standardPrice = pricing.CalculateDeliveryPrice(basePrice, weight, distance);
+// Result: $140.00
 
-decimal totalCost = shipment.GetCost();
-string description = shipment.GetDescription();
+// Switch to Express strategy at runtime
+pricing.SetStrategy(new ExpressPricingStrategy());
+var expressPrice = pricing.CalculateDeliveryPrice(basePrice, weight, distance);
+// Result: $269.50
+
+// Switch to Economy strategy
+pricing.SetStrategy(new EconomyPricingStrategy());
+var economyPrice = pricing.CalculateDeliveryPrice(basePrice, weight, distance);
+// Result: $95.20
+
+// Same input, different results based on strategy!
 ```
 
 **Key Features**:
-- Decorators can be stacked in any combination
-- Each decorator adds specific functionality
-- Original object remains unchanged
-- Features can be added/removed at runtime
+- Runtime algorithm selection
+- Each strategy encapsulates pricing logic
+- Context delegates to current strategy
+- Strategies are interchangeable
 
 **Benefits**:
-- Flexible alternative to subclassing
-- Avoids "class explosion" (2^n combinations)
-- Follows Single Responsibility Principle
-- Runtime composition instead of compile-time inheritance
+- Eliminates conditional statements for algorithm selection
+- Easy to add new pricing strategies without modifying existing code
+- Strategies can be unit tested independently
+- Client can choose optimal algorithm at runtime
 
 ---
 
-### **3. Composite Pattern - Hierarchical Package Management**
+### **3. State Pattern - Shipment Lifecycle State Machine**
 
-**Purpose**: Treat individual objects and compositions uniformly in tree structures
+**Purpose**: Allow an object to alter its behavior when its internal state changes
 
-**Components**:
-- **`IPackageComponent`**: Common interface for leaf and composite
-- **`PackageLeaf`**: Individual package (cannot contain children)
-- **`PackageContainer`**: Container holding packages/containers (can contain children)
-- **`PackageCompositeBuilder`**: Helper for building hierarchies
+**Context**:
+- **`ShipmentContext`**: Maintains current state, delegates behavior to state object, tracks state history
+
+**State Interface**:
+- **`IShipmentState`**: Common interface with `Process()`, `MoveToNext()`, `Cancel()` methods
+
+**Concrete States** (5 states):
+- **`PendingState`**: Initial state - validates details, assigns resources
+  - Can move to: In-Transit
+  - Can cancel: Yes → Cancelled
+- **`InTransitState`**: Shipment en route
+  - Can move to: Out-for-Delivery  
+  - Can cancel: Yes (with warning) → Cancelled
+- **`OutForDeliveryState`**: With delivery driver
+  - Can move to: Delivered
+  - Can cancel: No (already with customer)
+- **`DeliveredState`**: Terminal success state
+  - Can move to: None (terminal)
+  - Can cancel: No (use return process)
+- **`CancelledState`**: Terminal cancelled state
+  - Can move to: None (terminal)
+  - Can cancel: Already cancelled
 
 **Code Example**:
 ```csharp
-// Build hierarchy: Master container → 2 sub-containers → 6 packages
-var builder = new PackageCompositeBuilder();
-var masterBox = builder
-    .CreateContainer("MASTER-001", "Master Shipment Box")
-    .AddContainer("BOX-A", "Electronics Box")
-        .AddLeaf("PKG-001", "Laptop", 2.5m, PackagePriority.High)
-        .AddLeaf("PKG-002", "Phone", 0.5m, PackagePriority.High)
-    .EndContainer()
-    .AddContainer("BOX-B", "Accessories Box")
-        .AddLeaf("PKG-003", "Cables", 0.3m, PackagePriority.Normal)
-        .AddLeaf("PKG-004", "Charger", 0.2m, PackagePriority.Normal)
-    .EndContainer()
-    .Build();
+// Create shipment (starts in Pending state)
+var shipment = new ShipmentContext("SHP-001");
 
-decimal totalWeight = masterBox.GetWeight();        // 3.5 kg
-int totalPackages = masterBox.GetPackageCount();    // 4 packages
+shipment.DisplayStatus();
+// Current State: Pending
+// Allowed Actions: Process, MoveToNext, Cancel
+
+shipment.Process();
+// [Pending] Validating shipment details...
+// [Pending] Assigning vehicle and driver...
+// [Pending] Ready to move to In-Transit
+
+shipment.MoveToNext();
+// [State Change] SHP-001: Pending -> In-Transit
+
+shipment.Process();
+// [In-Transit] Tracking shipment location...
+// [In-Transit] Vehicle en route to destination...
+
+shipment.MoveToNext();
+// [State Change] SHP-001: In-Transit -> Out-for-Delivery
+
+shipment.MoveToNext();
+// [State Change] SHP-001: Out-for-Delivery -> Delivered
+
+shipment.Process();
+// [Delivered] Shipment successfully delivered!
+// [Delivered] This is a terminal state
+
+shipment.MoveToNext();
+// [Delivered] Already in final state - no next state available
+
+shipment.DisplayHistory();
+// [14:30:00] Created in Pending
+// [14:30:05] Pending -> In-Transit
+// [14:30:10] In-Transit -> Out-for-Delivery
+// [14:30:15] Out-for-Delivery -> Delivered
 ```
 
 **Key Features**:
-- Recursive tree structure (containers within containers)
-- Uniform treatment of leaf and composite
-- Fluent builder API for easy construction
-- Aggregate operations (total weight, count, display)
+- State-specific behavior encapsulated in state classes
+- State transitions managed by states themselves
+- Invalid transitions prevented automatically
+- State history tracking
+- Context delegates all behavior to current state
 
 **Benefits**:
-- Represents part-whole hierarchies naturally
-- Client code doesn't differentiate between individual/composite
-- Easy to add new component types
-- Simplifies complex hierarchical structures
-
----
-
-### **4. Facade Pattern - Simplified Logistics Coordination**
-
-**Purpose**: Provide unified, simplified interface to complex subsystem interactions
-
-**Subsystems Coordinated**:
-- Abstract Factory (region selection)
-- Vehicle Factory (vehicle creation)
-- Vehicle Pool (resource management)
-- Driver Pool (driver assignment)
-- Shipment Builder (shipment construction)
-- Route Prototype Manager (route templates)
-- Tracking Systems (GPS/RFID/Barcode adapters)
-
-**Facade Class**:
-- **`LogisticsFacade`**: Single entry point for complex logistics operations
-
-**Code Example**:
-```csharp
-var facade = new LogisticsFacade("Urban");
-
-// One simple call handles: factory selection, vehicle creation, 
-// pool management, driver assignment, route cloning, tracking setup
-var shipment = facade.CreateCompleteShipment(
-    shipmentId: "SHP-FACADE-001",
-    packages: packageList,
-    routeTemplateId: "urban-template",
-    vehicleType: VehicleType.DeliveryTruck,
-    trackingType: "GPS"
-);
-```
-
-**Key Features**:
-- Hides subsystem complexity
-- Provides high-level operations
-- Manages subsystem interactions
-- Reduces client dependencies
-
-**Benefits**:
-- Simplifies client code dramatically
-- Decouples client from subsystems
-- Makes subsystem easier to use
-- Centralizes complex coordination logic
-
----
-
-### **5. Bridge Pattern - Vehicle Operations & Control Systems**
-
-**Purpose**: Separate abstraction from implementation so both can vary independently
-
-**Abstraction Hierarchy (Operations)**:
-- **`VehicleOperation`** (abstract): Base operation using control system
-- **`StartVehicleOperation`**: Refined abstraction for starting
-- **`DriveVehicleOperation`**: Refined abstraction for driving
-- **`StopVehicleOperation`**: Refined abstraction for stopping
-
-**Implementation Hierarchy (Control Systems)**:
-- **`IVehicleControl`**: Implementor interface
-- **`ManualControl`**: Human-operated controls
-- **`AutomaticControl`**: Automatic transmission/throttle
-- **`AutonomousControl`**: Self-driving AI system
-- **`RemoteControl`**: Remote operation capability
-
-**Code Example**:
-```csharp
-// Same operation works with ANY control system
-IVehicleControl manualControl = new ManualControl();
-IVehicleControl autonomousControl = new AutonomousControl();
-
-VehicleOperation startManual = new StartVehicleOperation(manualControl, "TRUCK-001");
-VehicleOperation startAutonomous = new StartVehicleOperation(autonomousControl, "DRONE-001");
-
-startManual.Execute();      // "Starting TRUCK-001 using Manual Control..."
-startAutonomous.Execute();  // "Starting DRONE-001 using Autonomous Control..."
-```
-
-**Key Features**:
-- Operations and control systems vary independently
-- Any operation works with any control system
-- Easy to add new operations without changing controls
-- Easy to add new control systems without changing operations
-
-**Benefits**:
-- Avoids rigid inheritance hierarchy (4 operations × 4 controls = 16 classes!)
-- Supports runtime switching of implementations
-- Follows Open/Closed Principle
-- Separates interface from implementation concerns
-
----
-
-### **6. Flyweight Pattern - Package Type Memory Optimization**
-
-**Purpose**: Share common state among large numbers of objects to reduce memory consumption
-
-**Intrinsic State (Shared - Flyweight)**:
-- **`PackageType`**: Category, handling requirements, material, fragility
-- Managed by **`PackageTypeFactory`** with 8+ predefined types
-
-**Extrinsic State (Unique - Context)**:
-- **`FlyweightPackage`**: Package ID, weight, destination (stored separately)
-
-**Code Example**:
-```csharp
-var factory = new PackageTypeFactory();
-
-// 1000 packages share only 3 PackageType objects in memory!
-var packages = new List<FlyweightPackage>();
-for (int i = 0; i < 1000; i++)
-{
-    PackageType type = factory.GetPackageType("Standard");  // Reuses same instance
-    packages.Add(new FlyweightPackage($"PKG-{i}", type, 2.5m, "NYC"));
-}
-
-Console.WriteLine($"Total packages: {packages.Count}");
-Console.WriteLine($"Shared types: {factory.GetTotalFlyweights()}");  // Only 3!
-```
-
-**Predefined Types**:
-- Standard, Express, Fragile, Refrigerated, Hazardous, Electronics, Documents, Heavy
-
-**Key Features**:
-- Factory ensures type instances are shared
-- Intrinsic state stored once, referenced many times
-- Extrinsic state stored in context objects
-- Massive memory savings for large datasets
-
-**Benefits**:
-- Reduces memory footprint dramatically
-- Improves cache performance
-- Handles large object counts efficiently
-- Transparent to client code
-
----
-
-### **7. Proxy Pattern - Shipment Report Access Control**
-
-**Purpose**: Control access to objects through surrogate placeholder
-
-**Real Subject**:
-- **`ShipmentReport`**: Heavy object with expensive PDF generation
-
-**Three Proxy Types**:
-
-**1. Virtual Proxy (Lazy Loading)**:
-- **`LazyShipmentReportProxy`**: Defers creation until first access
-```csharp
-IShipmentReport lazyReport = new LazyShipmentReportProxy("SHP-001");
-// No load yet...
-lazyReport.Display();  // NOW loads from database (expensive operation)
-```
-
-**2. Protection Proxy (Access Control)**:
-- **`ProtectedShipmentReportProxy`**: Role-based access control
-```csharp
-// Employee role - read-only
-var employeeReport = new ProtectedShipmentReportProxy("SHP-001", "Employee");
-employeeReport.Display();      // ✓ Allowed
-employeeReport.ExportToPdf();  // ✗ Access Denied
-
-// Admin role - full access
-var adminReport = new ProtectedShipmentReportProxy("SHP-001", "Admin");
-adminReport.ExportToPdf();     // ✓ Allowed
-```
-
-**3. Caching Proxy (Performance)**:
-- **`CachingShipmentReportProxy`**: Caches expensive operations with TTL
-```csharp
-var cachingReport = new CachingShipmentReportProxy("SHP-001");
-cachingReport.ExportToPdf();  // Generates PDF (slow)
-cachingReport.ExportToPdf();  // Returns cached PDF (fast!)
-// Cache expires after 5 minutes
-```
-
-**Key Features**:
-- Same interface as real subject (`IShipmentReport`)
-- Lazy initialization for expensive objects
-- Role-based access control (Employee/Manager/Admin)
-- Time-based caching (5-minute TTL)
-
-**Benefits**:
-- Controls access to expensive resources
-- Adds security without modifying real subject
-- Improves performance through caching
-- Delays initialization until needed
+- Eliminates large conditional statements based on state
+- Each state class focuses on single state's behavior (SRP)
+- Easy to add new states without modifying existing ones
+- State transition logic is localized and clear
+- Prevents invalid operations in wrong states
 
 ---
 
@@ -509,37 +365,31 @@ cachingReport.ExportToPdf();  // Returns cached PDF (fast!)
 ```
 ┌────────────────────────────────────────────────────────────────────┐
 │                        Application Layer                           │
-│                      (Lab_2.Application)                           │
+│                      (Lab_3.Application)                           │
 │                          Program.cs                                │
 │  ┌──────────────────────────────────────────────────────────────┐  │
-│  │  LAB 2 FOCUS - STRUCTURAL PATTERNS (7):                      │  │
-│  │  • DemonstrateAdapter()       - Unify tracking systems       │  │
-│  │  • DemonstrateDecorator()     - Dynamic enhancements         │  │
-│  │  • DemonstrateComposite()     - Package hierarchies          │  │
-│  │  • DemonstrateFacade()        - Simplified interface         │  │
-│  │  • DemonstrateBridge()        - Decouple operations/controls │  │
-│  │  • DemonstrateFlyweight()     - Memory optimization          │  │
-│  │  • DemonstrateProxy()         - Access control & caching     │  │
+│  │  LAB 3 FOCUS - BEHAVIORAL PATTERNS (3):                      │  │
+│  │  • DemonstrateObserver()      - Event notification system    │  │
+│  │  • DemonstrateStrategy()      - Dynamic pricing algorithms   │  │
+│  │  • DemonstrateState()         - Shipment lifecycle states    │  │
 │  │                                                              │  │
-│  │  • DemonstrateIntegratedScenario() - All patterns together!  │  │
-│  │                                                              │  │
-│  │  (Foundation: 6 creational patterns from Lab 1)              │  │
+│  │  (Foundation: 7 structural + 6 creational patterns)          │  │
 │  └──────────────────────────────────────────────────────────────┘  │
 └──────────────────────────────┬─────────────────────────────────────┘
                                │ uses
 ┌──────────────────────────────▼─────────────────────────────────────┐
 │                         Services Layer                             │
-│                       (Lab_2.Services)                             │
+│                       (Lab_3.Services)                             │
 │  ┌─────────────────────────────────────────────────────────────┐   │
-│  │ LAB 2 - STRUCTURAL PATTERNS (Main Focus):                   │   │
+│  │ LAB 3 - BEHAVIORAL PATTERNS (Main Focus):                   │   │
 │  │                                                             │   │
-│  │ • Adapter/         - GPS, RFID, Barcode adapters            │   │
-│  │ • Decorators/      - 5 shipment decorators                  │   │
-│  │ • Composite/       - Package hierarchies                    │   │
-│  │ • Facade/          - LogisticsFacade                        │   │
-│  │ • Bridge/          - 4 controls × 3 operations              │   │
-│  │ • Flyweight/       - PackageType sharing                    │   │
-│  │ • Proxy/           - Lazy, Protection, Caching proxies      │   │
+│  │ • Observer/        - ShipmentTracker + 4 observers          │   │
+│  │ • Strategy/        - PricingContext + 4 strategies          │   │
+│  │ • State/           - ShipmentContext + 5 states             │   │
+│  │                                                             │   │
+│  │ LAB 2 - STRUCTURAL PATTERNS (Foundation):                   │   │
+│  │ • Adapter, Decorator, Composite, Facade                     │   │
+│  │ • Bridge, Flyweight, Proxy                                  │   │
 │  │                                                             │   │
 │  │ LAB 1 - CREATIONAL PATTERNS (Foundation):                   │   │
 │  │ • Singleton, Abstract Factory, Factory Method               │   │
@@ -549,47 +399,48 @@ cachingReport.ExportToPdf();  // Returns cached PDF (fast!)
                                │ implements
 ┌──────────────────────────────▼─────────────────────────────────────┐
 │                          Domain Layer                              │
-│                        (Lab_2.Domain)                              │
+│                        (Lab_3.Domain)                              │
 │  ┌───────────────────┐  ┌─────────────────┐  ┌──────────────────┐  │
 │  │    Entities       │  │  Interfaces     │  │      Enums       │  │
 │  │  • Vehicle (abs)  │  │                 │  │ • VehicleType    │  │
-│  │  • DeliveryTruck  │  │ STRUCTURAL:     │  │ • VehicleStatus  │  │
-│  │  • CargoTruck     │  │ • ITracking     │  │ • DriverLicense  │  │
-│  │  • CargoShip      │  │   System        │  │   Type           │  │
-│  │  • ContainerVessel│  │ • IShipment     │  │ • DriverStatus   │  │
-│  │  • CargoPlane     │  │   Component     │  │ • PackagePriority│  │
-│  │  • Drone          │  │ • IPackage      │  │ • ShipmentStatus │  │
-│  │  • Driver         │  │   Component     │  │ • RouteType      │  │
-│  │  • Package        │  │ • IVehicle      │  │                  │  │
-│  │  • Route          │  │   Control       │  │                  │  │
-│  │  • Shipment       │  │ • IShipment     │  │                  │  │
-│  │                   │  │   Report        │  │                  │  │
+│  │  • DeliveryTruck  │  │ BEHAVIORAL:     │  │ • VehicleStatus  │  │
+│  │  • CargoTruck     │  │ • IShipment     │  │ • DriverLicense  │  │
+│  │  • CargoShip      │  │   Observer      │  │   Type           │  │
+│  │  • ContainerVessel│  │ • IPricing      │  │ • DriverStatus   │  │
+│  │  • CargoPlane     │  │   Strategy      │  │ • PackagePriority│  │
+│  │  • Drone          │  │ • IShipment     │  │ • ShipmentStatus │  │
+│  │  • Driver         │  │   State         │  │ • RouteType      │  │
+│  │  • Package        │  │                 │  │                  │  │
+│  │  • Route          │  │ STRUCTURAL:     │  │                  │  │
+│  │  • Shipment       │  │ • ITracking     │  │                  │  │
+│  │                   │  │   System        │  │                  │  │
+│  │                   │  │ • IShipment     │  │                  │  │
+│  │                   │  │   Component     │  │                  │  │
+│  │                   │  │ • (+ 3 more)    │  │                  │  │
 │  │                   │  │                 │  │                  │  │
 │  │                   │  │ CREATIONAL:     │  │                  │  │
 │  │                   │  │ • ILogistics    │  │                  │  │
 │  │                   │  │   Factory       │  │                  │  │
 │  │                   │  │ • IVehicle      │  │                  │  │
 │  │                   │  │   Factory       │  │                  │  │
-│  │                   │  │ • IShipment     │  │                  │  │
-│  │                   │  │   Builder       │  │                  │  │
-│  │                   │  │ • (+ 3 more)    │  │                  │  │
+│  │                   │  │ • (+ 4 more)    │  │                  │  │
 │  └───────────────────┘  └─────────────────┘  └──────────────────┘  │
 └────────────────────────────────────────────────────────────────────┘
 
   Pattern Integration in Logistics System:
   ┌─────────────────────────────────────────────┐
-  │  7 Structural Patterns (FOCUS)              │
-  │  - Adapter    - Bridge                      │
-  │  - Decorator  - Flyweight                   │
-  │  - Composite  - Proxy                       │
-  │  - Facade                                   │
+  │  3 Behavioral Patterns (LAB 3 FOCUS)        │
+  │  - Observer   - Notification & events       │
+  │  - Strategy   - Algorithm selection         │
+  │  - State      - Lifecycle management        │
   │                                             │
-  │  6 Creational Patterns (Foundation)         │
-  │  - Singleton  - Builder    - Object Pool    │
-  │  - Abstract   - Prototype                   │
-  │    Factory                                  │
-  │  - Factory                                  │
-  │    Method                                   │
+  │  7 Structural Patterns (Lab 2 Foundation)   │
+  │  - Adapter, Decorator, Composite, Facade    │
+  │  - Bridge, Flyweight, Proxy                 │
+  │                                             │
+  │  6 Creational Patterns (Lab 1 Foundation)   │
+  │  - Singleton, Abstract Factory, Factory     │
+  │    Method, Builder, Prototype, Object Pool  │
   └─────────────────────────────────────────────┘
 ```
 
@@ -597,208 +448,273 @@ cachingReport.ExportToPdf();  // Returns cached PDF (fast!)
 
 ## **Conclusions / Results**
 
-In conclusion, **Lab 2** significantly deepened my understanding of **Structural Design Patterns** and their practical applications in real-world software systems. Implementing **7 distinct structural patterns** in a logistics domain demonstrated how these patterns solve complex relationship and composition challenges while maintaining code quality and flexibility.
+In conclusion, **Lab 3** significantly deepened my understanding of **Behavioral Design Patterns** and their practical applications in event-driven systems, dynamic algorithm selection, and stateful behavior management. Implementing **3 distinct behavioral patterns** in a logistics domain demonstrated how these patterns solve complex communication, algorithm selection, and lifecycle challenges while maintaining loose coupling and high flexibility.
 
-### **Structural Patterns Deep Dive:**
+### **Behavioral Patterns Deep Dive:**
 
-The **Adapter Pattern** demonstrated how to integrate incompatible third-party systems (GPS, RFID, Barcode) without modifying their code, providing a unified interface that follows the Open/Closed Principle. This pattern proved invaluable for real-world integration scenarios where you cannot change legacy or external systems.
+The **Observer Pattern** demonstrated the power of event-driven architecture by implementing a shipment tracking system where multiple observers (Email, SMS, Dashboard, Logging) react to status changes without tight coupling to the subject (`ShipmentTracker`). This pattern proved invaluable for maintaining separation of concerns - the tracking system doesn't need to know about notification mechanisms, and new observers can be added without modifying existing code. The one-to-many dependency ensures that when one object changes state, all dependents are notified automatically.
 
-The **Decorator Pattern** showed flexible runtime enhancement of shipments with features like insurance, priority handling, and temperature control. Instead of creating 2^5 = 32 subclasses for all possible combinations, decorators can be stacked dynamically, demonstrating the power of composition over inheritance.
+**Key Observer Benefits:**
+- **Loose Coupling**: Subject and observers are independent; can evolve separately
+- **Open/Closed Principle**: New observers can be added without changing subject code
+- **Dynamic Subscriptions**: Observers can attach/detach at runtime
+- **Real-world Applications**: Event systems, pub-sub architectures, reactive programming
 
-The **Composite Pattern** elegantly handled hierarchical package structures (containers within containers, packages within containers), treating individual packages and containers uniformly through the `IPackageComponent` interface. This pattern naturally represents part-whole hierarchies found in logistics.
+The **Strategy Pattern** showed how to encapsulate a family of interchangeable algorithms (Standard, Express, Economy, Overnight pricing) and make them dynamically selectable at runtime. Instead of using conditional logic (if/switch statements) or creating rigid inheritance hierarchies, Strategy allows the client to choose the appropriate algorithm through composition. This pattern eliminates code duplication and makes adding new pricing strategies trivial.
 
-The **Facade Pattern** simplified complex subsystem interactions by providing a clean, high-level interface (`LogisticsFacade`) that coordinates multiple services (factories, pools, builders, tracking systems). This dramatically reduced client code complexity and coupling.
+**Key Strategy Benefits:**
+- **Algorithm Flexibility**: Switch pricing strategies without changing client code
+- **Eliminates Conditionals**: Replaces if/switch statements with polymorphism
+- **Open/Closed Principle**: New strategies can be added without modifying existing code
+- **Runtime Selection**: Algorithms can be chosen dynamically based on context
+- **Real-world Applications**: Payment processing, sorting algorithms, compression methods
 
-The **Bridge Pattern** separated vehicle operations (Start, Drive, Stop) from control systems (Manual, Automatic, Autonomous, Remote), allowing both to vary independently. Without Bridge, we would need 3 operations × 4 controls = 12 tightly coupled classes instead of 3 + 4 = 7 flexible components.
+The **State Pattern** elegantly modeled shipment lifecycle management by encapsulating state-specific behavior in separate classes (Pending, InTransit, OutForDelivery, Delivered, Cancelled). Instead of using complex state flags and conditional logic, each state class defines what operations are valid and how transitions occur. This pattern makes state transitions explicit, traceable, and type-safe while maintaining a clear history of state changes.
 
-The **Flyweight Pattern** demonstrated massive memory optimization by sharing common `PackageType` data across thousands of packages. Instead of storing category, handling requirements, material, and fragility in each package, these intrinsic properties are shared while only unique extrinsic data (ID, weight, destination) is stored per package.
+**Key State Benefits:**
+- **Eliminates State Conditionals**: Each state defines its own behavior instead of massive switch statements
+- **Explicit State Transitions**: State changes are controlled and validated
+- **State History Tracking**: Built-in audit trail of all state changes
+- **Enforces Valid Operations**: Invalid operations (e.g., canceling delivered shipment) are prevented
+- **Real-world Applications**: Order processing, workflow engines, UI components, protocol implementations
 
-The **Proxy Pattern** showcased three powerful variants:
-- **Virtual Proxy**: Lazy loading of expensive shipment reports
-- **Protection Proxy**: Role-based access control (Employee/Manager/Admin)
-- **Caching Proxy**: Performance optimization with time-to-live
+The integrated demonstrations showed how **all 3 behavioral patterns complement each other** in a production-grade logistics system:
+- **Observer** handles notifications and monitoring
+- **Strategy** provides flexible business logic (pricing, routing, optimization)
+- **State** manages lifecycle and workflow transitions
 
-The integrated scenario demonstrated how **all 7 structural patterns work together** with the 6 creational patterns in a production-grade logistics system. This exemplifies how combining different pattern categories creates robust, scalable, maintainable architectures that follow SOLID principles and professional software engineering best practices.
+Combined with the 7 structural patterns (Lab 2) and 6 creational patterns (Lab 1), these behavioral patterns complete a comprehensive pattern toolkit that addresses creation, structure, and behavior - the three fundamental aspects of object-oriented design.
 
-**Lab 2 Focus**: Structural patterns are about **smart relationships** - how objects work together, how they're composed, how they're accessed, and how complexity is managed through proper organization and abstraction.
+**Lab 3 Focus**: Behavioral patterns are about **smart communication** - how objects interact, how responsibilities are distributed, how algorithms are selected, and how state-dependent behavior is managed through proper encapsulation and delegation.
 
 ### **Example Outputs:**
 
 **Console Output:**
 ```
-╔════════════════════════════════════════════════════════════════╗
-║    Creational Design Patterns - Logistics System Demo          ║
-║    TMPS Lab 1 - Alexandru Rudoi                                ║
-╚════════════════════════════════════════════════════════════════╝
+========================================
+BEHAVIORAL DESIGN PATTERNS - LAB 3
+Logistics System Demo
+========================================
 
-═══════════════════════════════════════════════════════════════
-PATTERN 1: SINGLETON - Centralized Configuration
-═══════════════════════════════════════════════════════════════
-Purpose: Ensure only one instance of configuration exists
+========================================
+PATTERN 1: OBSERVER PATTERN
+Shipment Status Notification System
+========================================
 
-config1 == config2: True
-Both references point to the SAME instance!
+Creating ShipmentTracker (Subject)...
+Attaching observers:
+  - Email Notification Observer (customer@logistics.com)
+  - SMS Notification Observer (+1-555-0199)
+  - Dashboard Observer (DASHBOARD-MAIN-001)
+  - Logging Observer (Audit Trail)
 
-Logistics Configuration:
-  Max Load Capacity: 10000.00 kg
-  Working Hours: 08:00:00 to 18:00:00
-  Max Delivery Distance: 500.00 km
-  Vehicle Pool Size: 50
-  Driver Pool Size: 100
+--- Shipment Status Update 1 ---
+Updating shipment SHP-12345 to 'Pending' at Warehouse A...
 
-✓ Singleton pattern ensures single configuration instance
-✓ Thread-safe implementation using Lazy<T>
+[EMAIL] To: customer@logistics.com
+  Subject: Shipment Status Update
+  Message: Your shipment SHP-12345 status changed to 'Pending'
+  Location: Warehouse A
 
-═══════════════════════════════════════════════════════════════
-PATTERN 2: ABSTRACT FACTORY - Region-Specific Logistics
-═══════════════════════════════════════════════════════════════
-Purpose: Create families of related objects (vehicles/drivers) per region
+[SMS] To: +1-555-0199
+  Alert: Shipment SHP-12345 is now 'Pending'
+  Current location: Warehouse A
 
---- Urban Region Factory ---
-Standard: DeliveryTruck (DT-Urban-001, 1500.00kg, Urban, Refrigeration: No)
-Heavy: CargoPlane (CP-Urban-002, 50000.00kg, Urban, Model: Boeing 777F)
-Light: Drone (DRN-Urban-003, 25.00kg, Urban, Autonomous: Yes)
-Fuel Multiplier: 1.5x
+[DASHBOARD-MAIN-001] Update #1
+  Shipment: SHP-12345
+  New Status: Pending
+  Location: Warehouse A
 
---- Rural Region Factory ---
-Standard: CargoTruck (CT-Rural-001, 8000.00kg, Rural, Axles: 4)
-Heavy: CargoTruck (CT-Rural-002, 12000.00kg, Rural, Axles: 5)
-Light: CargoTruck (CT-Rural-003, 6000.00kg, Rural, Axles: 3)
-Fuel Multiplier: 1.2x
+[LOG] [15:23:45] AUDIT TRAIL
+  Shipment SHP-12345: Unknown -> Pending
+  Location: Warehouse A
 
---- International Region Factory ---
-Standard: CargoShip (SS-International-001, 100000.00kg, Containers: 200)
-Heavy: ContainerVessel (MV-International-002, 250000.00kg, Containers: 1000)
-Light: CargoPlane (CP-International-003, 50000.00kg, Model: Airbus A330F)
-Fuel Multiplier: 2.0x
+--- Shipment Status Update 2 ---
+Updating shipment SHP-12345 to 'In-Transit' at Distribution Center...
 
-✓ Abstract Factory creates region-specific vehicle families
-✓ Each factory produces compatible objects for its region
+[EMAIL] To: customer@logistics.com
+  Subject: Shipment Status Update
+  Message: Your shipment SHP-12345 status changed to 'In-Transit'
+  Location: Distribution Center
 
-═══════════════════════════════════════════════════════════════
-PATTERN 3: FACTORY METHOD - Simple Vehicle Creation
-═══════════════════════════════════════════════════════════════
-Purpose: Provide interface for creating objects without specifying exact class
+[SMS] To: +1-555-0199
+  Alert: Shipment SHP-12345 is now 'In-Transit'
+  Current location: Distribution Center
 
-Created: DeliveryTruck (DT-ABC-123, 1500.00kg, Urban, Refrigeration: Yes)
-Created: CargoTruck (CT-XYZ-789, 8000.00kg, Urban, Axles: 4)
-Created: Drone (DRN-456, 25.00kg, Urban, Autonomous: Yes)
-Created: CargoShip (SS Logistics, 100000.00kg, Urban, Containers: 200)
-Created: CargoPlane (CP-777, 50000.00kg, Urban, Model: Boeing 777F)
+[DASHBOARD-MAIN-001] Update #2
+  Shipment: SHP-12345
+  New Status: In-Transit
+  Location: Distribution Center
 
-✓ Factory Method encapsulates vehicle creation logic
-✓ Client code doesn't need to know concrete vehicle classes
+[LOG] [15:23:46] AUDIT TRAIL
+  Shipment SHP-12345: Pending -> In-Transit
+  Location: Distribution Center
 
-═══════════════════════════════════════════════════════════════
-PATTERN 4: BUILDER - Complex Shipment Construction
-═══════════════════════════════════════════════════════════════
-Purpose: Construct complex objects step-by-step with validation
+--- Shipment Status Update 3 ---
+Updating shipment SHP-12345 to 'Delivered' at Customer Address...
 
-Building shipment step-by-step:
-✓ Shipment built: SHP-DEMO-001 (Scheduled, 28.00kg)
-  - 3 packages totaling 28.00kg
-  - Vehicle: DeliveryTruck (BLD-DT-100)
-  - Driver: John Smith
-  - Route: Downtown Circuit (30.00km)
+[EMAIL] To: customer@logistics.com
+  Subject: Shipment Status Update
+  Message: Your shipment SHP-12345 status changed to 'Delivered'
+  Location: Customer Address
 
-✓ Builder pattern enables fluent, step-by-step construction
-✓ Validates requirements before creating final object
+[SMS] To: +1-555-0199
+  Alert: Shipment SHP-12345 is now 'Delivered'
+  Current location: Customer Address
 
-═══════════════════════════════════════════════════════════════
-PATTERN 5: PROTOTYPE - Route Template Cloning
-═══════════════════════════════════════════════════════════════
-Purpose: Clone existing objects to create new instances efficiently
+[DASHBOARD-MAIN-001] Update #3
+  Shipment: SHP-12345
+  New Status: Delivered
+  Location: Customer Address
 
-Available route templates:
-  - urban-template
-  - rural-template
-  - international-template
-  - express-template
+[LOG] [15:23:47] AUDIT TRAIL
+  Shipment SHP-12345: In-Transit -> Delivered
+  Location: Customer Address
 
-Cloned urban routes:
-Route 1: URBAN-101 - City Center Loop - Morning (Urban, 10.00km, 01:00:00)
-Route 2: URBAN-102 - City Center Loop - Evening (Urban, 10.00km, 01:00:00)
+Observer Pattern Summary:
+  - 1 Subject (ShipmentTracker)
+  - 4 Observers (Email, SMS, Dashboard, Logging)
+  - 3 Status updates triggered 12 notifications (4 per update)
+  - Loose coupling: Subject unaware of observer implementations
 
-Cloned rural route: RURAL-201 - Countryside Circuit - Weekly (Rural, 80.00km, 05:00:00)
-
-✓ Prototype pattern enables efficient object cloning
-✓ Templates can be customized after cloning
-✓ Avoids expensive initialization for similar objects
-
-═══════════════════════════════════════════════════════════════
-PATTERN 6: OBJECT POOL - Resource Management
-═══════════════════════════════════════════════════════════════
-Purpose: Reuse expensive objects instead of creating/destroying
-
-Vehicle Pool initialized: 4 vehicles
-Available: 4
-
-Acquiring vehicles from pool:
-  ✓ Acquired: DeliveryTruck (POOL-DT-1, 1500.00kg, Urban)
-  ✓ Acquired: Drone (DRN-POOL-DRN-3, 25.00kg, Urban, Autonomous: Yes)
-
-Pool status - Available: 2, In Use: 2
-
-Releasing vehicles back to pool:
-  ✓ Released: POOL-DT-1
-  ✓ Released: POOL-DRN-3
-
-Pool status - Available: 4, In Use: 0
-
-✓ Object Pool manages resource lifecycle efficiently
-✓ Thread-safe acquire/release operations
-✓ Reduces object creation overhead
-
-═══════════════════════════════════════════════════════════════
-PATTERN 7: INTEGRATED SCENARIO - All Patterns Together
-═══════════════════════════════════════════════════════════════
-Purpose: Demonstrate how all patterns work together in real scenario
-
-✓ Using Singleton configuration
-✓ Created Urban logistics factory
-✓ Created 3 vehicles using Factory Method
-✓ Initialized Vehicle Pool with 3 vehicles
-✓ Cloned route using Prototype: Integrated Demo Route
-✓ Created driver pool with 1 drivers
-✓ Built complex shipment using Builder pattern
-
---- Final Shipment Validation ---
-✓ Shipment validation PASSED
+========================================
+PATTERN 2: STRATEGY PATTERN
+Dynamic Delivery Pricing Algorithms
+========================================
 
 Shipment Details:
-  ID: SHP-INTEGRATED-001
-  Status: Scheduled
-  Total Weight: 72.00 kg
-  Packages: 3
-  Vehicle: DeliveryTruck (INT-DT-1, 1500.00kg)
-  Driver: Captain Alice Johnson (Aviation license)
-  Route: Integrated Demo Route (10.00km, 01:00:00)
-  Scheduled: [Current Time + 4 hours]
-  Notes: Priority delivery - medical supplies on board
+  Base Price: $50.00
+  Weight: 15.00 kg
+  Distance: 120.00 km
 
-✓ Resources released back to pools
+--- Strategy 1: Standard Pricing ---
+Strategy: Standard Pricing
+Description: Balanced pricing for regular deliveries
+Calculation:
+  Base: $50.00
+  Weight cost: 15.00 kg x $2.00 = $30.00
+  Distance cost: 120.00 km x $0.50 = $60.00
+  Total: $140.00
 
-═══════════════════════════════════════════════════════════════
-LAB 2: ALL 7 STRUCTURAL PATTERNS SUCCESSFULLY DEMONSTRATED!
+--- Strategy 2: Express Pricing ---
+Switching strategy to: Express Pricing
+Description: Premium rates for fast delivery
+Calculation:
+  Base: $50.00
+  Weight cost: 15.00 kg x $3.50 = $52.50
+  Distance cost: 120.00 km x $1.20 = $144.00
+  Express surcharge: $25.00
+  Total: $271.50
 
-STRUCTURAL PATTERNS (Lab 2 Focus):
-  1. ✓ Adapter - Third-party tracking unification (GPS, RFID, Barcode)
-  2. ✓ Decorator - Dynamic shipment enhancements (5 decorators)
-  3. ✓ Composite - Hierarchical package management (trees)
-  4. ✓ Facade - Simplified logistics coordination (unified interface)
-  5. ✓ Bridge - Operation/control separation (4×3 combinations)
-  6. ✓ Flyweight - Shared package type data (memory optimization)
-  7. ✓ Proxy - Report access control (lazy, protection, caching)
+--- Strategy 3: Economy Pricing ---
+Switching strategy to: Economy Pricing
+Description: Budget-friendly flexible delivery
+Calculation:
+  Base: $50.00
+  Weight cost: 15.00 kg x $1.20 = $18.00
+  Distance cost: 120.00 km x $0.30 = $36.00
+  Subtotal: $104.00
+  Economy discount: -15% = -$15.60
+  Total: $88.40
 
-CREATIONAL PATTERNS (Lab 1 Foundation):
-  ✓ Singleton, Abstract Factory, Factory Method
-  ✓ Builder, Prototype, Object Pool
-═══════════════════════════════════════════════════════════════
+--- Strategy 4: Overnight Pricing ---
+Switching strategy to: Overnight Pricing
+Description: Premium overnight delivery rates
+Calculation:
+  Base: $50.00
+  Weight cost: 15.00 kg x $4.00 = $60.00
+  Distance cost: 120.00 km x $1.50 = $180.00
+  Overnight fee: $35.00
+  Total: $325.00
 
-╔════════════════════════════════════════════════════════════════╗
-║  Lab 2: 7 Structural Design Patterns Successfully Mastered!   ║
-║  Building Flexible Relationships & Compositions in Logistics  ║
-╚════════════════════════════════════════════════════════════════╝
+Strategy Pattern Summary:
+  - Same shipment, 4 different pricing algorithms
+  - Price range: $88.40 (Economy) to $325.00 (Overnight)
+  - Runtime strategy switching enabled
+  - No conditional logic needed
+
+========================================
+PATTERN 3: STATE PATTERN
+Shipment Lifecycle State Machine
+========================================
+
+Creating new shipment: SHP-99999
+
+--- Initial State ---
+Current State: Pending
+Allowed Actions: Process, MoveToNext, Cancel
+State History:
+  [15:23:48] Created in Pending
+
+--- Processing Pending State ---
+  [Pending] Validating shipment details...
+  [Pending] Checking inventory availability...
+  [Pending] Assigning vehicle and driver...
+  [Pending] Preparing shipment documentation...
+  [Pending] Ready to move to In-Transit
+
+--- Moving to Next State ---
+  [State Change] SHP-99999: Pending -> In-Transit
+
+Current State: In-Transit
+Allowed Actions: Process, MoveToNext, Cancel
+
+--- Processing In-Transit State ---
+  [In-Transit] Tracking shipment location via GPS...
+  [In-Transit] Vehicle en route to destination...
+  [In-Transit] Estimated arrival: 2 hours
+  [In-Transit] Ready for next transition
+
+--- Moving to Next State ---
+  [State Change] SHP-99999: In-Transit -> Out-for-Delivery
+
+Current State: Out-for-Delivery
+Allowed Actions: Process, MoveToNext
+
+--- Processing Out-for-Delivery State ---
+  [Out-for-Delivery] Driver arrived at delivery zone...
+  [Out-for-Delivery] Locating customer address...
+  [Out-for-Delivery] Preparing for final delivery...
+
+--- Moving to Next State ---
+  [State Change] SHP-99999: Out-for-Delivery -> Delivered
+
+Current State: Delivered
+Allowed Actions: Process
+
+--- Processing Delivered State ---
+  [Delivered] Shipment successfully delivered!
+  [Delivered] Customer signature obtained
+  [Delivered] This is a terminal state
+
+--- Attempting Invalid Transition ---
+  [Delivered] Already in final state - no next state available
+
+--- Complete State History ---
+State History:
+  [15:23:48] Created in Pending
+  [15:23:49] Pending -> In-Transit
+  [15:23:50] In-Transit -> Out-for-Delivery
+  [15:23:51] Out-for-Delivery -> Delivered
+
+State Pattern Summary:
+  - 5 states implemented (Pending, In-Transit, Out-for-Delivery, Delivered, Cancelled)
+  - State transitions: Pending -> In-Transit -> Out-for-Delivery -> Delivered
+  - Invalid transitions prevented automatically
+  - Full state history tracking
+
+========================================
+LAB 3: ALL 3 BEHAVIORAL PATTERNS DEMONSTRATED!
+
+BEHAVIORAL PATTERNS (Lab 3 Focus):
+  1. Observer   - Event notification system (4 observers)
+  2. Strategy   - Dynamic pricing (4 strategies)
+  3. State      - Lifecycle management (5 states)
+
+FOUNDATION PATTERNS (Labs 1 & 2):
+  - 7 Structural Patterns (Adapter, Decorator, Composite, Facade, Bridge, Flyweight, Proxy)
+  - 6 Creational Patterns (Singleton, Abstract Factory, Factory Method, Builder, Prototype, Object Pool)
+========================================
 
 Press any key to exit...
 ```
@@ -815,47 +731,48 @@ Press any key to exit...
 
 **Using Command Line:**
 ```cmd
-cd Lab_2
+cd Lab_3
 dotnet restore
 dotnet build
-dotnet run --project Lab_2.Application
+dotnet run --project Lab_3.Application
 ```
 
 **Using Visual Studio/Rider:**
-1. Open `Lab_2.sln`
-2. Set `Lab_2.Application` as startup project
+1. Open `Lab_3.sln`
+2. Set `Lab_3.Application` as startup project
 3. Press F5 or click Run
 
 ### **Project Structure:**
 ```
-Lab_2/
-├── Lab_2.sln                          # Solution file
-├── README.md                          # This file - Structural Patterns documentation
-├── Lab_2.Domain/                      # Domain layer
+Lab_3/
+├── Lab_3.sln                          # Solution file
+├── README.md                          # This file - Behavioral Patterns documentation
+├── Lab_3.Domain/                      # Domain layer
 │   ├── Entities/                      # Business entities (Vehicle, Driver, Package, etc.)
 │   ├── Enums/                         # Enumeration types
 │   ├── Interfaces/                    # Pattern contracts
-│   │   ├── ITrackingSystem.cs        # Adapter pattern target
-│   │   ├── IShipmentComponent.cs     # Decorator pattern component
-│   │   ├── IPackageComponent.cs      # Composite pattern component
-│   │   ├── IVehicleControl.cs        # Bridge pattern implementor
-│   │   ├── IShipmentReport.cs        # Proxy pattern subject
-│   │   └── (+ 6 creational interfaces)
-├── Lab_2.Services/                    # Services layer
-│   ├── Adapters/                      # LAB 2: Adapter (GPS, RFID, Barcode)
-│   ├── Decorators/                    # LAB 2: Decorator (5 types)
-│   ├── Composite/                     # LAB 2: Composite (Leaf, Container, Builder)
-│   ├── Facade/                        # LAB 2: Facade (LogisticsFacade)
-│   ├── Bridge/                        # LAB 2: Bridge (4 controls + 3 operations)
-│   ├── Flyweight/                     # LAB 2: Flyweight (PackageType sharing)
-│   ├── Proxy/                         # LAB 2: Proxy (Lazy, Protection, Caching)
+│   │   ├── IShipmentObserver.cs      # Observer pattern interface
+│   │   ├── IPricingStrategy.cs       # Strategy pattern interface
+│   │   ├── IShipmentState.cs         # State pattern interface
+│   │   └── (+ 13 other pattern interfaces)
+├── Lab_3.Services/                    # Services layer
+│   ├── Observer/                      # LAB 3: Observer (ShipmentTracker + 4 observers)
+│   ├── Strategy/                      # LAB 3: Strategy (PricingContext + 4 strategies)
+│   ├── State/                         # LAB 3: State (ShipmentContext + 5 states)
+│   ├── Adapters/                      # LAB 2: Adapter pattern
+│   ├── Decorators/                    # LAB 2: Decorator pattern
+│   ├── Composite/                     # LAB 2: Composite pattern
+│   ├── Facade/                        # LAB 2: Facade pattern
+│   ├── Bridge/                        # LAB 2: Bridge pattern
+│   ├── Flyweight/                     # LAB 2: Flyweight pattern
+│   ├── Proxy/                         # LAB 2: Proxy pattern
 │   ├── Factories/                     # LAB 1: Abstract Factory, Factory Method
 │   ├── Builders/                      # LAB 1: Builder pattern
 │   ├── Prototypes/                    # LAB 1: Prototype pattern
 │   ├── Pools/                         # LAB 1: Object Pool pattern
 │   └── Configuration/                 # LAB 1: Singleton pattern
-└── Lab_2.Application/                 # Application layer
-    └── Program.cs                     # 7 structural + 6 creational demonstrations
+└── Lab_3.Application/                 # Application layer
+    └── Program.cs                     # 3 behavioral pattern demonstrations
 ```
 
 ---
@@ -864,7 +781,10 @@ Lab_2/
 
 - **Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides** – Design Patterns: Elements of Reusable Object-Oriented Software (Gang of Four)
 - **Robert C. Martin** – Clean Architecture: A Craftsman's Guide to Software Structure and Design
-- **Refactoring.Guru** – Creational Design Patterns ([refactoring.guru/design-patterns/creational-patterns](https://refactoring.guru/design-patterns/creational-patterns))
+- **Refactoring.Guru** – Behavioral Design Patterns ([refactoring.guru/design-patterns/behavioral-patterns](https://refactoring.guru/design-patterns/behavioral-patterns))
+- **Refactoring.Guru** – Observer Pattern ([refactoring.guru/design-patterns/observer](https://refactoring.guru/design-patterns/observer))
+- **Refactoring.Guru** – Strategy Pattern ([refactoring.guru/design-patterns/strategy](https://refactoring.guru/design-patterns/strategy))
+- **Refactoring.Guru** – State Pattern ([refactoring.guru/design-patterns/state](https://refactoring.guru/design-patterns/state))
 - **Microsoft Docs** – C# .NET 9 Documentation ([docs.microsoft.com/en-us/dotnet/](https://docs.microsoft.com/en-us/dotnet/))
 - **Microsoft Docs** – Design Patterns in .NET ([docs.microsoft.com/en-us/azure/architecture/patterns/](https://docs.microsoft.com/en-us/azure/architecture/patterns/))
 - **Source Making** – Design Patterns ([sourcemaking.com/design_patterns](https://sourcemaking.com/design_patterns))

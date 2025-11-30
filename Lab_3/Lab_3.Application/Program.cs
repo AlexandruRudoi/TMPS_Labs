@@ -16,6 +16,9 @@ using Lab_3.Services.Flyweight;
 using Lab_3.Services.Pools;
 using Lab_3.Services.Prototypes;
 using Lab_3.Services.Proxy;
+using Lab_3.Services.Observer;
+using Lab_3.Services.Strategy;
+using Lab_3.Services.State;
 
 namespace Lab_3.Application;
 
@@ -92,40 +95,241 @@ internal class Program
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("════════════════════════════════════════════════════════════════");
-        Console.WriteLine("                    MAIN MENU                                   ");
+        Console.WriteLine("       LAB 3: BEHAVIORAL DESIGN PATTERNS DEMONSTRATION         ");
         Console.WriteLine("════════════════════════════════════════════════════════════════");
         Console.ResetColor();
         Console.WriteLine();
 
+        // BEHAVIORAL PATTERNS - Main focus of Lab 3
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("Demonstrating 3 Behavioral Design Patterns:");
+        Console.WriteLine("  1. Observer Pattern - Event notification system");
+        Console.WriteLine("  2. Strategy Pattern - Interchangeable algorithms");
+        Console.WriteLine("  3. State Pattern - State-dependent behavior");
+        Console.ResetColor();
         Console.WriteLine();
 
-        // STRUCTURAL PATTERNS - Demonstrating all patterns
-        Console.WriteLine("STRUCTURAL DESIGN PATTERNS DEMONSTRATIONS:\n");
+        // 1. OBSERVER PATTERN - Shipment tracking notifications
+        DemonstrateObserver();
 
-        // 1. ADAPTER PATTERN - Third-party system integration
-        DemonstrateAdapter();
+        // 2. STRATEGY PATTERN - Dynamic pricing strategies
+        DemonstrateStrategy();
 
-        // 2. DECORATOR PATTERN - Dynamic feature enhancement
-        DemonstrateDecorator();
+        // 3. STATE PATTERN - Shipment lifecycle management
+        DemonstrateState();
 
-        // 3. COMPOSITE PATTERN - Hierarchical package grouping
-        DemonstrateComposite();
-
-        // 4. FACADE PATTERN - Simplified operations
-        DemonstrateFacade();
-
-        // 5. BRIDGE PATTERN - Decouple abstraction from implementation
-        DemonstrateBridge();
-
-        // 6. FLYWEIGHT PATTERN - Share common data efficiently
-        DemonstrateFlyweight();
-
-        // 7. PROXY PATTERN - Control access and lazy loading
-        DemonstrateProxy();
-
-        // INTEGRATED DEMO - All structural patterns working together
-        DemonstrateIntegratedScenario();
+        // Summary
+        Console.WriteLine("\n");
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("════════════════════════════════════════════════════════════════");
+        Console.WriteLine("           LAB 3 PATTERNS DEMONSTRATION COMPLETE                ");
+        Console.WriteLine("════════════════════════════════════════════════════════════════");
+        Console.ResetColor();
+        Console.WriteLine();
+        Console.WriteLine("Summary of Behavioral Patterns Implemented:");
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("1. OBSERVER PATTERN:");
+        Console.ResetColor();
+        Console.WriteLine("   - Subject: ShipmentTracker");
+        Console.WriteLine("   - Observers: EmailNotificationObserver, SmsNotificationObserver,");
+        Console.WriteLine("                DashboardObserver, LoggingObserver");
+        Console.WriteLine("   - Use Case: Real-time shipment status notifications");
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("2. STRATEGY PATTERN:");
+        Console.ResetColor();
+        Console.WriteLine("   - Context: DeliveryPricingContext");
+        Console.WriteLine("   - Strategies: StandardPricingStrategy, ExpressPricingStrategy,");
+        Console.WriteLine("                 EconomyPricingStrategy, OvernightPricingStrategy");
+        Console.WriteLine("   - Use Case: Dynamic delivery pricing calculation");
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("3. STATE PATTERN:");
+        Console.ResetColor();
+        Console.WriteLine("   - Context: ShipmentContext");
+        Console.WriteLine("   - States: PendingState, InTransitState, OutForDeliveryState,");
+        Console.WriteLine("             DeliveredState, CancelledState");
+        Console.WriteLine("   - Use Case: Shipment lifecycle state machine");
+        Console.WriteLine();
     }
+
+    // ═══════════════════════════════════════════════════════════════
+    // BEHAVIORAL PATTERNS DEMONSTRATIONS
+    // ═══════════════════════════════════════════════════════════════
+
+    private static void DemonstrateObserver()
+    {
+        PrintSectionHeader("OBSERVER PATTERN", "Shipment Status Notification System");
+        Console.WriteLine("Purpose: Notify multiple parties when shipment status changes\n");
+
+        // Create the subject (shipment tracker)
+        var tracker = new ShipmentTracker();
+
+        Console.WriteLine("--- Setting up Observers ---\n");
+
+        // Create observers (subscribers)
+        var emailObserver = new EmailNotificationObserver("customer@example.com");
+        var smsObserver = new SmsNotificationObserver("+1-555-0123");
+        var dashboardObserver = new DashboardObserver("MAIN-001");
+        var loggingObserver = new LoggingObserver();
+
+        // Attach observers to the tracker
+        tracker.Attach(emailObserver);
+        tracker.Attach(smsObserver);
+        tracker.Attach(dashboardObserver);
+        tracker.Attach(loggingObserver);
+
+        Console.WriteLine($"\nTotal observers attached: {tracker.GetObserverCount()}\n");
+
+        // Simulate shipment lifecycle with status updates
+        Console.WriteLine("--- Simulating Shipment Lifecycle ---");
+
+        tracker.UpdateShipmentStatus("SHP-OBS-001", "Pending", "Warehouse Hub - New York");
+        System.Threading.Thread.Sleep(500);
+
+        tracker.UpdateShipmentStatus("SHP-OBS-001", "In-Transit", "Distribution Center - Philadelphia");
+        System.Threading.Thread.Sleep(500);
+
+        tracker.UpdateShipmentStatus("SHP-OBS-001", "Out-for-Delivery", "Local Delivery Hub - Boston");
+        System.Threading.Thread.Sleep(500);
+
+        // Detach SMS observer (customer opts out)
+        Console.WriteLine("\n--- Customer opts out of SMS notifications ---");
+        tracker.Detach(smsObserver);
+        Console.WriteLine();
+
+        tracker.UpdateShipmentStatus("SHP-OBS-001", "Delivered", "Customer Address - Boston, MA");
+
+        PrintBenefits(
+            "Observer pattern enables loose coupling between subject and observers",
+            "Multiple observers can react to the same event independently",
+            "Easy to add or remove observers at runtime without changing subject",
+            "Each observer type (Email, SMS, Dashboard, Logger) has its own notification logic"
+        );
+    }
+
+    private static void DemonstrateStrategy()
+    {
+        PrintSectionHeader("STRATEGY PATTERN", "Dynamic Delivery Pricing");
+        Console.WriteLine("Purpose: Switch between different pricing algorithms at runtime\n");
+
+        var basePrice = 50m;
+        var weight = 15m;
+        var distance = 120m;
+
+        Console.WriteLine($"Shipment Details:");
+        Console.WriteLine($"  Base Price: ${basePrice}");
+        Console.WriteLine($"  Weight: {weight}kg");
+        Console.WriteLine($"  Distance: {distance}km\n");
+
+        Console.WriteLine("--- Comparing Different Pricing Strategies ---\n");
+
+        // Create pricing context with initial strategy
+        var pricingContext = new DeliveryPricingContext(new StandardPricingStrategy());
+
+        // 1. Standard Pricing
+        var standardPrice = pricingContext.CalculateDeliveryPrice(basePrice, weight, distance);
+
+        // 2. Switch to Express Pricing
+        pricingContext.SetStrategy(new ExpressPricingStrategy());
+        var expressPrice = pricingContext.CalculateDeliveryPrice(basePrice, weight, distance);
+
+        // 3. Switch to Economy Pricing
+        pricingContext.SetStrategy(new EconomyPricingStrategy());
+        var economyPrice = pricingContext.CalculateDeliveryPrice(basePrice, weight, distance);
+
+        // 4. Switch to Overnight Pricing
+        pricingContext.SetStrategy(new OvernightPricingStrategy());
+        var overnightPrice = pricingContext.CalculateDeliveryPrice(basePrice, weight, distance);
+
+        // Summary comparison
+        Console.WriteLine("\n--- Pricing Comparison Summary ---");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine($"Economy:   ${economyPrice:F2}   (Cheapest - 3-5 days)");
+        Console.WriteLine($"Standard:  ${standardPrice:F2}   (Normal - 2-3 days)");
+        Console.WriteLine($"Express:   ${expressPrice:F2}   (Fast - Next day)");
+        Console.WriteLine($"Overnight: ${overnightPrice:F2}   (Premium - Same night)");
+        Console.ResetColor();
+
+        PrintBenefits(
+            "Strategy pattern encapsulates pricing algorithms as interchangeable strategies",
+            "Pricing logic can be changed at runtime without modifying client code",
+            "Easy to add new pricing strategies without affecting existing ones",
+            "Each strategy implements the same interface but with different algorithms"
+        );
+    }
+
+    private static void DemonstrateState()
+    {
+        PrintSectionHeader("STATE PATTERN", "Shipment Lifecycle State Machine");
+        Console.WriteLine("Purpose: Manage shipment state transitions with state-specific behavior\n");
+
+        // Create shipment context (starts in Pending state)
+        var shipment = new ShipmentContext("SHP-STATE-001");
+
+        Console.WriteLine("--- Shipment Lifecycle Workflow ---\n");
+
+        // Display initial status
+        shipment.DisplayStatus();
+
+        // Process in Pending state
+        shipment.Process();
+
+        // Move to In-Transit
+        shipment.MoveToNext();
+        shipment.DisplayStatus();
+        shipment.Process();
+
+        // Move to Out-for-Delivery
+        shipment.MoveToNext();
+        shipment.DisplayStatus();
+        shipment.Process();
+
+        // Move to Delivered
+        shipment.MoveToNext();
+        shipment.DisplayStatus();
+        shipment.Process();
+
+        // Try to move from terminal state
+        Console.WriteLine("\n--- Attempting Invalid Transitions ---");
+        shipment.MoveToNext(); // Should fail - already delivered
+
+        // Display history
+        shipment.DisplayHistory();
+
+        Console.WriteLine("\n\n--- Demonstrating Cancellation Workflow ---\n");
+
+        // Create another shipment and cancel it
+        var shipment2 = new ShipmentContext("SHP-STATE-002");
+        shipment2.DisplayStatus();
+        shipment2.Process();
+
+        shipment2.MoveToNext(); // Move to In-Transit
+        shipment2.Process();
+
+        // Cancel from In-Transit state
+        shipment2.Cancel();
+        shipment2.DisplayStatus();
+        shipment2.Process();
+
+        // Try to move from cancelled state
+        shipment2.MoveToNext(); // Should fail
+
+        shipment2.DisplayHistory();
+
+        PrintBenefits(
+            "State pattern encapsulates state-specific behavior in separate state classes",
+            "State transitions are managed by state objects themselves",
+            "Easy to add new states without modifying existing state classes",
+            "Prevents invalid state transitions and operations in wrong states",
+            "Clean alternative to large conditional statements based on state"
+        );
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // STRUCTURAL PATTERNS DEMONSTRATIONS (from Lab 2)
+    // ═══════════════════════════════════════════════════════════════
 
     private static void DemonstrateAdapter()
     {
@@ -611,20 +815,46 @@ internal class Program
         Console.WriteLine($"{report.GetSummary()}");
         Console.WriteLine();
 
+        // OBSERVER PATTERN: Setup tracking notifications
+        Console.WriteLine("--- 8. OBSERVER: Shipment Status Notifications ---");
+        var tracker = new ShipmentTracker();
+        tracker.Attach(new EmailNotificationObserver("customer@example.com"));
+        tracker.Attach(new DashboardObserver("MAIN-HUB"));
+        tracker.UpdateShipmentStatus(shipment.Id, "Pending", "Distribution Center");
+        Console.WriteLine();
+
+        // STRATEGY PATTERN: Calculate delivery price with different strategies
+        Console.WriteLine("--- 9. STRATEGY: Dynamic Pricing Calculation ---");
+        var pricingContext = new DeliveryPricingContext(new ExpressPricingStrategy());
+        var price = pricingContext.CalculateDeliveryPrice(50m, packageHierarchy.GetTotalWeight(), route.TotalDistance);
+        Console.WriteLine();
+
+        // STATE PATTERN: Manage shipment lifecycle
+        Console.WriteLine("--- 10. STATE: Shipment State Management ---");
+        var stateShipment = new ShipmentContext(shipment.Id);
+        Console.WriteLine($"Initial State: {stateShipment.GetCurrentState().StateName}");
+        stateShipment.MoveToNext();
+        Console.WriteLine($"Current State: {stateShipment.GetCurrentState().StateName}");
+        Console.WriteLine();
+
         // Cleanup
         vehiclePool.Release(vehicle);
         driverPool.Release(driver);
 
         Console.WriteLine("═══════════════════════════════════════════════════════════════");
-        Console.WriteLine("ALL 7 STRUCTURAL PATTERNS SUCCESSFULLY INTEGRATED:");
-        Console.WriteLine("\nSTRUCTURAL PATTERNS:");
-        Console.WriteLine("  1. Adapter - Third-party tracking system integration");
-        Console.WriteLine("  2. Decorator - Dynamic shipment enhancements");
-        Console.WriteLine("  3. Composite - Hierarchical package grouping");
-        Console.WriteLine("  4. Facade - Simplified operations");
-        Console.WriteLine("  5. Bridge - Decouple abstraction from implementation");
-        Console.WriteLine("  6. Flyweight - Share common data efficiently");
-        Console.WriteLine("  7. Proxy - Control access and lazy loading");
+        Console.WriteLine("ALL 10 DESIGN PATTERNS SUCCESSFULLY INTEGRATED:");
+        Console.WriteLine("\nBEHAVIORAL PATTERNS (Lab 3 - Main Focus):");
+        Console.WriteLine("  1. Observer - Shipment status notification system");
+        Console.WriteLine("  2. Strategy - Dynamic delivery pricing strategies");
+        Console.WriteLine("  3. State - Shipment lifecycle state machine");
+        Console.WriteLine("\nSTRUCTURAL PATTERNS (Lab 2):");
+        Console.WriteLine("  4. Adapter - Third-party tracking system integration");
+        Console.WriteLine("  5. Decorator - Dynamic shipment enhancements");
+        Console.WriteLine("  6. Composite - Hierarchical package grouping");
+        Console.WriteLine("  7. Facade - Simplified operations");
+        Console.WriteLine("  8. Bridge - Decouple abstraction from implementation");
+        Console.WriteLine("  9. Flyweight - Share common data efficiently");
+        Console.WriteLine("  10. Proxy - Control access and lazy loading");
         Console.WriteLine("\nNote: Creational patterns (Singleton, Factory, Builder, Prototype, Pool)");
         Console.WriteLine("      used internally for object creation infrastructure.");
         Console.WriteLine("═══════════════════════════════════════════════════════════════\n");
