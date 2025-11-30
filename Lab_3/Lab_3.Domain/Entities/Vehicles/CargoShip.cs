@@ -8,16 +8,6 @@ namespace Lab_3.Domain.Entities.Vehicles;
 public class CargoShip : Vehicle
 {
     /// <summary>
-    ///     Gets or sets the maximum number of containers the ship can carry
-    /// </summary>
-    public int ContainerCapacity { get; set; }
-
-    /// <summary>
-    ///     Gets or sets the type of vessel
-    /// </summary>
-    public string VesselType { get; set; }
-
-    /// <summary>
     ///     Initializes a new instance of the CargoShip class
     /// </summary>
     /// <param name="id">Unique identifier</param>
@@ -32,13 +22,23 @@ public class CargoShip : Vehicle
         VesselType = "Bulk Carrier";
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    ///     Gets or sets the maximum number of containers the ship can carry
+    /// </summary>
+    public int ContainerCapacity { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the type of vessel
+    /// </summary>
+    public string VesselType { get; set; }
+
+    /// <inheritdoc />
     public override decimal CalculateFuelCost(decimal distance)
     {
         return distance * 2.50m;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string GetVehicleInfo()
     {
         return

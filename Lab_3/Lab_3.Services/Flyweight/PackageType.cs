@@ -6,32 +6,8 @@ namespace Lab_3.Services.Flyweight;
 /// </summary>
 public class PackageType
 {
-    /// <summary>
-    ///     Category of the package
-    /// </summary>
-    public string Category { get; }
-    
-    /// <summary>
-    ///     Handling instructions for this type
-    /// </summary>
-    public string HandlingInstructions { get; }
-    
-    /// <summary>
-    ///     Standard packaging material
-    /// </summary>
-    public string PackagingMaterial { get; }
-    
-    /// <summary>
-    ///     Whether this type is fragile
-    /// </summary>
-    public bool IsFragile { get; }
-    
-    /// <summary>
-    ///     Icon/symbol for this package type
-    /// </summary>
-    public string Icon { get; }
-
-    public PackageType(string category, string handlingInstructions, string packagingMaterial, bool isFragile, string icon)
+    public PackageType(string category, string handlingInstructions, string packagingMaterial, bool isFragile,
+        string icon)
     {
         Category = category;
         HandlingInstructions = handlingInstructions;
@@ -39,6 +15,31 @@ public class PackageType
         IsFragile = isFragile;
         Icon = icon;
     }
+
+    /// <summary>
+    ///     Category of the package
+    /// </summary>
+    public string Category { get; }
+
+    /// <summary>
+    ///     Handling instructions for this type
+    /// </summary>
+    public string HandlingInstructions { get; }
+
+    /// <summary>
+    ///     Standard packaging material
+    /// </summary>
+    public string PackagingMaterial { get; }
+
+    /// <summary>
+    ///     Whether this type is fragile
+    /// </summary>
+    public bool IsFragile { get; }
+
+    /// <summary>
+    ///     Icon/symbol for this package type
+    /// </summary>
+    public string Icon { get; }
 
     public void Display()
     {

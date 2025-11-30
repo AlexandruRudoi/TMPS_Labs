@@ -7,15 +7,15 @@ namespace Lab_3.Services.Decorators;
 /// </summary>
 public class SignatureConfirmationDecorator : ShipmentDecorator
 {
-    private readonly bool _requiresIdVerification;
     private readonly decimal _confirmationFee;
+    private readonly bool _requiresIdVerification;
 
     /// <summary>
     ///     Initializes a new instance of the SignatureConfirmationDecorator
     /// </summary>
     /// <param name="shipment">The shipment requiring signature</param>
     /// <param name="requiresIdVerification">Whether ID verification is required</param>
-    public SignatureConfirmationDecorator(IShipmentComponent shipment, bool requiresIdVerification = false) 
+    public SignatureConfirmationDecorator(IShipmentComponent shipment, bool requiresIdVerification = false)
         : base(shipment)
     {
         _requiresIdVerification = requiresIdVerification;

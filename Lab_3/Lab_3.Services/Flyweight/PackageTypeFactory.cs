@@ -6,8 +6,8 @@ namespace Lab_3.Services.Flyweight;
 /// </summary>
 public class PackageTypeFactory
 {
-    private readonly Dictionary<string, PackageType> _packageTypes = new();
     private static readonly object _lock = new();
+    private readonly Dictionary<string, PackageType> _packageTypes = new();
 
     /// <summary>
     ///     Gets or creates a PackageType flyweight
@@ -33,12 +33,18 @@ public class PackageTypeFactory
     /// <summary>
     ///     Gets total number of flyweight instances
     /// </summary>
-    public int GetFlyweightCount() => _packageTypes.Count;
+    public int GetFlyweightCount()
+    {
+        return _packageTypes.Count;
+    }
 
     /// <summary>
     ///     Gets all registered package type categories
     /// </summary>
-    public IEnumerable<string> GetCategories() => _packageTypes.Keys;
+    public IEnumerable<string> GetCategories()
+    {
+        return _packageTypes.Keys;
+    }
 
     /// <summary>
     ///     Creates predefined package types
@@ -51,64 +57,64 @@ public class PackageTypeFactory
                 "Electronics",
                 "Keep dry, avoid magnetic fields, handle with care",
                 "Anti-static bubble wrap",
-                isFragile: true,
-                icon: "[01]"
+                true,
+                "[01]"
             ),
             "books" => new PackageType(
                 "Books",
                 "Keep dry, stack carefully",
                 "Cardboard box",
-                isFragile: false,
-                icon: "[02]"
+                false,
+                "[02]"
             ),
             "clothing" => new PackageType(
                 "Clothing",
                 "Keep dry and clean",
                 "Plastic bag",
-                isFragile: false,
-                icon: "[03]"
+                false,
+                "[03]"
             ),
             "food" => new PackageType(
                 "Food",
                 "Keep refrigerated, check expiry",
                 "Insulated container",
-                isFragile: false,
-                icon: "[04]"
+                false,
+                "[04]"
             ),
             "pharmaceuticals" => new PackageType(
                 "Pharmaceuticals",
                 "Temperature controlled, secure handling",
                 "Medical-grade container",
-                isFragile: true,
-                icon: "[05]"
+                true,
+                "[05]"
             ),
             "glass" => new PackageType(
                 "Glass/Fragile",
                 "FRAGILE - Handle with extreme care",
                 "Heavy-duty bubble wrap with corner protection",
-                isFragile: true,
-                icon: "[06]"
+                true,
+                "[06]"
             ),
             "documents" => new PackageType(
                 "Documents",
                 "Keep dry, confidential handling",
                 "Waterproof envelope",
-                isFragile: false,
-                icon: "[07]"
+                false,
+                "[07]"
             ),
             "furniture" => new PackageType(
                 "Furniture",
                 "Heavy item, use proper lifting equipment",
                 "Foam padding and shrink wrap",
-                isFragile: false,
-                icon: "[08]"
+                false,
+                "[08]"
             ),
             _ => new PackageType(
                 "General",
                 "Standard handling procedures",
                 "Standard cardboard box",
-                isFragile: false,
-                icon: "[09]"
+                false,
+                "[09]"
             )
         };
     }

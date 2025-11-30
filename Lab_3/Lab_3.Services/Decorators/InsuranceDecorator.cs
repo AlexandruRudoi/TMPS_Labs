@@ -7,8 +7,8 @@ namespace Lab_3.Services.Decorators;
 /// </summary>
 public class InsuranceDecorator : ShipmentDecorator
 {
-    private readonly decimal _insuranceValue;
     private readonly decimal _insuranceRate;
+    private readonly decimal _insuranceValue;
 
     /// <summary>
     ///     Initializes a new instance of the InsuranceDecorator
@@ -16,7 +16,7 @@ public class InsuranceDecorator : ShipmentDecorator
     /// <param name="shipment">The shipment to insure</param>
     /// <param name="insuranceValue">Declared value for insurance</param>
     /// <param name="insuranceRate">Insurance rate (default 2% of value)</param>
-    public InsuranceDecorator(IShipmentComponent shipment, decimal insuranceValue, decimal insuranceRate = 0.02m) 
+    public InsuranceDecorator(IShipmentComponent shipment, decimal insuranceValue, decimal insuranceRate = 0.02m)
         : base(shipment)
     {
         _insuranceValue = insuranceValue;
@@ -40,6 +40,7 @@ public class InsuranceDecorator : ShipmentDecorator
     public override void Process()
     {
         base.Process();
-        Console.WriteLine($"  Insurance applied: ${_insuranceValue:F2} coverage (Fee: ${_insuranceValue * _insuranceRate:F2})");
+        Console.WriteLine(
+            $"  Insurance applied: ${_insuranceValue:F2} coverage (Fee: ${_insuranceValue * _insuranceRate:F2})");
     }
 }

@@ -8,14 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Lab_3.Domain\Lab_3.Domain.csproj" />
-      <ProjectReference Include="..\Lab_3.Services\Lab_3.Services.csproj" />
+        <ProjectReference Include="..\Lab_3.Domain\Lab_3.Domain.csproj"/>
+        <ProjectReference Include="..\Lab_3.Services\Lab_3.Services.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Data\tracking-systems.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
+        <None Update="Data\tracking-systems.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

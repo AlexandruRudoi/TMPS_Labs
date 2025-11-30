@@ -8,7 +8,10 @@ namespace Lab_3.Services.Bridge;
 /// </summary>
 public class AutomaticControl : IVehicleControl
 {
-    public string GetControlType() => "Automatic Control";
+    public string GetControlType()
+    {
+        return "Automatic Control";
+    }
 
     public string Start()
     {

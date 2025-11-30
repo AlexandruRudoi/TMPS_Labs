@@ -10,28 +10,7 @@ public sealed class LogisticsConfig : ILogisticsConfig
     /// <summary>
     ///     Thread-safe lazy initialization of singleton instance
     /// </summary>
-    private static readonly Lazy<LogisticsConfig> _instance =
-        new Lazy<LogisticsConfig>(() => new LogisticsConfig());
-
-    /// <summary>
-    ///     Gets the singleton instance of LogisticsConfig
-    /// </summary>
-    public static LogisticsConfig Instance => _instance.Value;
-
-    /// <inheritdoc />
-    public string CompanyName { get; private set; }
-
-    /// <inheritdoc />
-    public string HeadquartersRegion { get; private set; }
-
-    /// <inheritdoc />
-    public decimal MaxDailyDistance { get; private set; }
-
-    /// <inheritdoc />
-    public int MaxPackagesPerShipment { get; private set; }
-
-    /// <inheritdoc />
-    public List<string> SupportedRegions { get; private set; }
+    private static readonly Lazy<LogisticsConfig> _instance = new(() => new LogisticsConfig());
 
     /// <summary>
     ///     Private constructor prevents external instantiation
@@ -44,6 +23,26 @@ public sealed class LogisticsConfig : ILogisticsConfig
         MaxPackagesPerShipment = 50;
         SupportedRegions = new List<string> { "Urban", "Rural", "Suburban" };
     }
+
+    /// <summary>
+    ///     Gets the singleton instance of LogisticsConfig
+    /// </summary>
+    public static LogisticsConfig Instance => _instance.Value;
+
+    /// <inheritdoc />
+    public string CompanyName { get; }
+
+    /// <inheritdoc />
+    public string HeadquartersRegion { get; }
+
+    /// <inheritdoc />
+    public decimal MaxDailyDistance { get; private set; }
+
+    /// <inheritdoc />
+    public int MaxPackagesPerShipment { get; private set; }
+
+    /// <inheritdoc />
+    public List<string> SupportedRegions { get; }
 
     /// <inheritdoc />
     public void DisplayConfiguration()

@@ -9,17 +9,17 @@ public enum VehicleStatus
     ///     Vehicle is available for assignment
     /// </summary>
     Available,
-    
+
     /// <summary>
     ///     Vehicle is currently in use on a delivery
     /// </summary>
     InUse,
-    
+
     /// <summary>
     ///     Vehicle is undergoing maintenance
     /// </summary>
     Maintenance,
-    
+
     /// <summary>
     ///     Vehicle is out of service
     /// </summary>

@@ -28,7 +28,7 @@ public class ProtectedShipmentReportProxy : IShipmentReport
 
         if (_realReport == null)
             _realReport = new ShipmentReport(_shipmentId);
-            
+
         _realReport.Load();
     }
 
@@ -37,14 +37,14 @@ public class ProtectedShipmentReportProxy : IShipmentReport
         if (!CheckAccess("Read"))
         {
             Console.WriteLine($"\n     ACCESS DENIED: User {_userId} cannot view reports");
-            Console.WriteLine($"      Required role: Manager or Admin");
+            Console.WriteLine("      Required role: Manager or Admin");
             Console.WriteLine($"      Current role: {_userRole}\n");
             return;
         }
 
         if (_realReport == null)
             _realReport = new ShipmentReport(_shipmentId);
-            
+
         _realReport.Display();
     }
 
@@ -53,14 +53,14 @@ public class ProtectedShipmentReportProxy : IShipmentReport
         if (!CheckAccess("Export"))
         {
             Console.WriteLine($"\n     ACCESS DENIED: User {_userId} cannot export reports");
-            Console.WriteLine($"      Required role: Admin");
+            Console.WriteLine("      Required role: Admin");
             Console.WriteLine($"      Current role: {_userRole}\n");
             return null;
         }
 
         if (_realReport == null)
             _realReport = new ShipmentReport(_shipmentId);
-            
+
         return _realReport.ExportToPdf();
     }
 

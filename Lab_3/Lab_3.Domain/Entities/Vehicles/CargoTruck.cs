@@ -8,16 +8,6 @@ namespace Lab_3.Domain.Entities.Vehicles;
 public class CargoTruck : Vehicle
 {
     /// <summary>
-    ///     Gets or sets the number of axles on the truck
-    /// </summary>
-    public int AxleCount { get; set; }
-
-    /// <summary>
-    ///     Gets or sets whether the truck has an attached trailer
-    /// </summary>
-    public bool HasTrailer { get; set; }
-
-    /// <summary>
     ///     Initializes a new instance of the CargoTruck class
     /// </summary>
     /// <param name="id">Unique identifier</param>
@@ -34,16 +24,26 @@ public class CargoTruck : Vehicle
         HasTrailer = hasTrailer;
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    ///     Gets or sets the number of axles on the truck
+    /// </summary>
+    public int AxleCount { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether the truck has an attached trailer
+    /// </summary>
+    public bool HasTrailer { get; set; }
+
+    /// <inheritdoc />
     public override decimal CalculateFuelCost(decimal distance)
     {
         var baseCost = distance * 0.35m;
-        var axleCost = distance * (AxleCount * 0.06m);
+        var axleCost = distance * AxleCount * 0.06m;
         var trailerCost = HasTrailer ? distance * 0.10m : 0;
         return baseCost + axleCost + trailerCost;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string GetVehicleInfo()
     {
         return

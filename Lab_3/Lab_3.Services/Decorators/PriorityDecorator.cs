@@ -7,15 +7,15 @@ namespace Lab_3.Services.Decorators;
 /// </summary>
 public class PriorityDecorator : ShipmentDecorator
 {
-    private readonly string _priorityLevel;
     private readonly decimal _priorityFee;
+    private readonly string _priorityLevel;
 
     /// <summary>
     ///     Initializes a new instance of the PriorityDecorator
     /// </summary>
     /// <param name="shipment">The shipment to prioritize</param>
     /// <param name="priorityLevel">Priority level (Express, Urgent, Standard)</param>
-    public PriorityDecorator(IShipmentComponent shipment, string priorityLevel = "Express") 
+    public PriorityDecorator(IShipmentComponent shipment, string priorityLevel = "Express")
         : base(shipment)
     {
         _priorityLevel = priorityLevel;

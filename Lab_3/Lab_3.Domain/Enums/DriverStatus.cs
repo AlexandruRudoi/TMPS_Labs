@@ -9,17 +9,17 @@ public enum DriverStatus
     ///     Driver is available for assignment
     /// </summary>
     Available,
-    
+
     /// <summary>
     ///     Driver is currently on a route
     /// </summary>
     OnRoute,
-    
+
     /// <summary>
     ///     Driver is on break
     /// </summary>
     OnBreak,
-    
+
     /// <summary>
     ///     Driver is off duty
     /// </summary>

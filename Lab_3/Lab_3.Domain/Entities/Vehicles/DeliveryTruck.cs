@@ -8,16 +8,6 @@ namespace Lab_3.Domain.Entities.Vehicles;
 public class DeliveryTruck : Vehicle
 {
     /// <summary>
-    ///     Gets or sets whether the truck has refrigeration capability
-    /// </summary>
-    public bool HasRefrigeration { get; set; }
-
-    /// <summary>
-    ///     Gets or sets the maximum number of pallets that can be loaded
-    /// </summary>
-    public int MaxPallets { get; set; }
-
-    /// <summary>
     ///     Initializes a new instance of the DeliveryTruck class
     /// </summary>
     /// <param name="id">Unique identifier</param>
@@ -32,14 +22,24 @@ public class DeliveryTruck : Vehicle
         MaxPallets = 12;
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    ///     Gets or sets whether the truck has refrigeration capability
+    /// </summary>
+    public bool HasRefrigeration { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the maximum number of pallets that can be loaded
+    /// </summary>
+    public int MaxPallets { get; set; }
+
+    /// <inheritdoc />
     public override decimal CalculateFuelCost(decimal distance)
     {
         var baseCost = distance * 0.18m;
-        return HasRefrigeration ? baseCost + (distance * 0.03m) : baseCost;
+        return HasRefrigeration ? baseCost + distance * 0.03m : baseCost;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string GetVehicleInfo()
     {
         return

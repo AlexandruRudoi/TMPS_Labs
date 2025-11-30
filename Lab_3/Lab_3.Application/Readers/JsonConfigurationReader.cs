@@ -34,11 +34,8 @@ public class JsonConfigurationReader
     public T Load<T>(string fileName) where T : class
     {
         var filePath = Path.Combine(_dataPath, fileName);
-        
-        if (!File.Exists(filePath))
-        {
-            throw new FileNotFoundException($"Configuration file not found: {filePath}");
-        }
+
+        if (!File.Exists(filePath)) throw new FileNotFoundException($"Configuration file not found: {filePath}");
 
         var jsonContent = File.ReadAllText(filePath);
         return JsonSerializer.Deserialize<T>(jsonContent, _jsonOptions)
@@ -67,11 +64,8 @@ public class JsonConfigurationReader
     {
         var filePath = Path.Combine(_dataPath, fileName);
         var directory = Path.GetDirectoryName(filePath);
-        
-        if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
-        {
-            Directory.CreateDirectory(directory);
-        }
+
+        if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory)) Directory.CreateDirectory(directory);
 
         var jsonContent = JsonSerializer.Serialize(data, _jsonOptions);
         File.WriteAllText(filePath, jsonContent);

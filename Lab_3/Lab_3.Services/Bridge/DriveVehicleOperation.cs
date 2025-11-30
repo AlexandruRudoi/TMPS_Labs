@@ -8,7 +8,7 @@ namespace Lab_3.Services.Bridge;
 /// </summary>
 public class DriveVehicleOperation : VehicleOperation
 {
-    public DriveVehicleOperation(IVehicleControl control, string vehicleId) 
+    public DriveVehicleOperation(IVehicleControl control, string vehicleId)
         : base(control, vehicleId)
     {
     }

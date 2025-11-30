@@ -9,8 +9,8 @@ namespace Lab_3.Services.Decorators;
 /// </summary>
 public class BasicShipmentComponent : IShipmentComponent
 {
-    private readonly Shipment _shipment;
     private readonly decimal _baseCost;
+    private readonly Shipment _shipment;
 
     /// <summary>
     ///     Initializes a new instance of the BasicShipmentComponent
@@ -23,13 +23,22 @@ public class BasicShipmentComponent : IShipmentComponent
     }
 
     /// <inheritdoc />
-    public string GetId() => _shipment.Id;
+    public string GetId()
+    {
+        return _shipment.Id;
+    }
 
     /// <inheritdoc />
-    public string GetDescription() => "Basic Shipment";
+    public string GetDescription()
+    {
+        return "Basic Shipment";
+    }
 
     /// <inheritdoc />
-    public decimal CalculateCost() => _baseCost;
+    public decimal CalculateCost()
+    {
+        return _baseCost;
+    }
 
     /// <inheritdoc />
     public void Process()
@@ -38,7 +47,10 @@ public class BasicShipmentComponent : IShipmentComponent
     }
 
     /// <inheritdoc />
-    public Shipment GetShipment() => _shipment;
+    public Shipment GetShipment()
+    {
+        return _shipment;
+    }
 
     /// <summary>
     ///     Calculates base shipping cost based on weight and distance
@@ -47,10 +59,10 @@ public class BasicShipmentComponent : IShipmentComponent
     {
         const decimal costPerKg = 2.5m;
         const decimal costPerKm = 0.5m;
-        
+
         var weightCost = _shipment.TotalWeight * costPerKg;
         var distanceCost = _shipment.Route?.TotalDistance ?? 0 * costPerKm;
-        
+
         return weightCost + distanceCost;
     }
 }

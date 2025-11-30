@@ -10,17 +10,17 @@ public interface IShipmentReport
     ///     Loads the complete shipment report
     /// </summary>
     void Load();
-    
+
     /// <summary>
     ///     Displays the report
     /// </summary>
     void Display();
-    
+
     /// <summary>
     ///     Exports report to PDF
     /// </summary>
     string ExportToPdf();
-    
+
     /// <summary>
     ///     Gets report summary
     /// </summary>

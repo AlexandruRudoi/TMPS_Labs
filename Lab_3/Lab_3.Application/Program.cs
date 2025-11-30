@@ -3,14 +3,12 @@ using Lab_3.Application.Readers;
 using Lab_3.Domain.Entities;
 using Lab_3.Domain.Entities.Vehicles;
 using Lab_3.Domain.Enums;
-using Lab_3.Domain.Factory;
 using Lab_3.Domain.Interfaces;
 using Lab_3.Services;
 using Lab_3.Services.Adapters;
 using Lab_3.Services.Bridge;
 using Lab_3.Services.Builders;
 using Lab_3.Services.Composite;
-using Lab_3.Services.Configuration;
 using Lab_3.Services.Decorators;
 using Lab_3.Services.Facade;
 using Lab_3.Services.Factories;
@@ -25,12 +23,12 @@ namespace Lab_3.Application;
 ///     Smart Logistics Management System
 ///     Demonstrates advanced design patterns in a real-world logistics application
 /// </summary>
-class Program
+internal class Program
 {
     private static TrackingConfigurationDto? _configuration;
-    private static readonly JsonConfigurationReader _configReader = new();
+    private static readonly JsonConfigurationReader ConfigReader = new();
 
-    static void Main(string[] args)
+    private static void Main(string[] args)
     {
         PrintHeader();
         LoadConfiguration();
@@ -42,7 +40,7 @@ class Program
         catch (Exception ex)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"\n❌ Error: {ex.Message}");
+            Console.WriteLine($"\nError: {ex.Message}");
             Console.ResetColor();
         }
 
@@ -50,13 +48,13 @@ class Program
         Console.ReadKey();
     }
 
-    static void PrintHeader()
+    private static void PrintHeader()
     {
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("╔════════════════════════════════════════════════════════════════╗");
         Console.WriteLine("║                                                                ║");
-        Console.WriteLine("║         🚚 SMART LOGISTICS MANAGEMENT SYSTEM 🚚                ║");
+        Console.WriteLine("║           SMART LOGISTICS MANAGEMENT SYSTEM                    ║");
         Console.WriteLine("║                                                                ║");
         Console.WriteLine("║         Lab 3: Behavioral Design Patterns                      ║");
         Console.WriteLine("║         Author: Alexandru Rudoi                                ║");
@@ -66,31 +64,31 @@ class Program
         Console.WriteLine();
     }
 
-    static void LoadConfiguration()
+    private static void LoadConfiguration()
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.Write("⚙️  Loading system configuration... ");
-        
+        Console.Write("Loading system configuration... ");
+
         try
         {
-            _configuration = _configReader.Load<TrackingConfigurationDto>("tracking-systems.json");
+            _configuration = ConfigReader.Load<TrackingConfigurationDto>("tracking-systems.json");
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("✓ Done");
+            Console.WriteLine("Done");
             Console.ResetColor();
-            Console.WriteLine($"   • Loaded {_configuration.TrackingSystems.Count} tracking systems");
-            Console.WriteLine($"   • Loaded {_configuration.Shipments.Count} shipment configurations\n");
+            Console.WriteLine($"   Loaded {_configuration.TrackingSystems.Count} tracking systems");
+            Console.WriteLine($"   Loaded {_configuration.Shipments.Count} shipment configurations\n");
         }
         catch (Exception ex)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("✗ Failed");
+            Console.WriteLine("Failed");
             Console.WriteLine($"   Error: {ex.Message}");
             Console.ResetColor();
             throw;
         }
     }
 
-    static void RunLogisticsApplication()
+    private static void RunLogisticsApplication()
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("════════════════════════════════════════════════════════════════");
@@ -102,7 +100,7 @@ class Program
         Console.WriteLine();
 
         // STRUCTURAL PATTERNS - Demonstrating all patterns
-        Console.WriteLine("📦 STRUCTURAL DESIGN PATTERNS DEMONSTRATIONS:\n");
+        Console.WriteLine("STRUCTURAL DESIGN PATTERNS DEMONSTRATIONS:\n");
 
         // 1. ADAPTER PATTERN - Third-party system integration
         DemonstrateAdapter();
@@ -129,14 +127,14 @@ class Program
         DemonstrateIntegratedScenario();
     }
 
-    static void DemonstrateAdapter()
+    private static void DemonstrateAdapter()
     {
         PrintSectionHeader("ADAPTER PATTERN", "Third-Party Tracking Systems Integration");
         Console.WriteLine("Purpose: Convert incompatible interfaces to work with our system\n");
 
         if (_configuration?.TrackingSystems == null || !_configuration.TrackingSystems.Any())
         {
-            Console.WriteLine("⚠️  No tracking systems configured\n");
+            Console.WriteLine("Warning: No tracking systems configured\n");
             return;
         }
 
@@ -155,20 +153,17 @@ class Program
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine($"┌─ {system.SystemName} ───");
             Console.ResetColor();
-            
+
             // Unified interface despite different underlying systems
             var location = system.Track(shipmentId);
-            Console.WriteLine($"│ 📍 Current Location: {location}");
-            
-            Console.WriteLine("│ 📜 Tracking History:");
+            Console.WriteLine($"│ Current Location: {location}");
+
+            Console.WriteLine("│ Tracking History:");
             var history = system.GetTrackingHistory(shipmentId);
-            foreach (var entry in history.Take(3))
-            {
-                Console.WriteLine($"│    • {entry}");
-            }
-            
+            foreach (var entry in history.Take(3)) Console.WriteLine($"│    {entry}");
+
             var eta = system.GetEstimatedDelivery(shipmentId);
-            Console.WriteLine($"│ ⏰ Estimated Delivery: {eta:yyyy-MM-dd HH:mm}");
+            Console.WriteLine($"│ Estimated Delivery: {eta:yyyy-MM-dd HH:mm}");
             Console.WriteLine("└────────────────────────────────────────\n");
         }
 
@@ -179,7 +174,7 @@ class Program
         );
     }
 
-    static void DemonstrateDecorator()
+    private static void DemonstrateDecorator()
     {
         PrintSectionHeader("DECORATOR PATTERN", "Dynamic Shipment Enhancements");
         Console.WriteLine("Purpose: Add responsibilities to objects dynamically without inheritance\n");
@@ -187,11 +182,11 @@ class Program
         // Create a base shipment (using creational patterns for object creation)
         var packages = new List<Package>
         {
-            new Package("PKG-DEC-001", "Laptop Computer", 3m, "Tech Store", "Urban"),
-            new Package("PKG-DEC-002", "Monitor", 5m, "Tech Store", "Urban")
+            new("PKG-DEC-001", "Laptop Computer", 3m, "Tech Store", "Urban"),
+            new("PKG-DEC-002", "Monitor", 5m, "Tech Store", "Urban")
         };
 
-        var vehicle = new DeliveryTruck("V-DEC-001", "DEC-TRUCK-1", 1500m, "Urban", false);
+        var vehicle = new DeliveryTruck("V-DEC-001", "DEC-TRUCK-1", 1500m, "Urban");
         var driver = new Driver("D-DEC-001", "Mike Wilson", "Urban", DriverLicenseType.Delivery);
         var route = new Route("R-DEC-001", "Tech Delivery Route", "Urban")
         {
@@ -211,16 +206,16 @@ class Program
 
         // Wrap in component and apply decorators (STRUCTURAL PATTERN DEMONSTRATION)
         Console.WriteLine("--- Building Enhanced Shipment with Decorators ---\n");
-        
+
         IShipmentComponent component = new BasicShipmentComponent(shipment);
         Console.WriteLine($"1. Base: {component.GetDescription()}");
         Console.WriteLine($"   Cost: ${component.CalculateCost():F2}\n");
 
-        component = new InsuranceDecorator(component, insuranceValue: 2000m);
+        component = new InsuranceDecorator(component, 2000m);
         Console.WriteLine($"2. + Insurance: {component.GetDescription()}");
         Console.WriteLine($"   Cost: ${component.CalculateCost():F2}\n");
 
-        component = new PriorityDecorator(component, "Express");
+        component = new PriorityDecorator(component);
         Console.WriteLine($"3. + Priority: {component.GetDescription()}");
         Console.WriteLine($"   Cost: ${component.CalculateCost():F2}\n");
 
@@ -228,7 +223,7 @@ class Program
         Console.WriteLine($"4. + Fragile: {component.GetDescription()}");
         Console.WriteLine($"   Cost: ${component.CalculateCost():F2}\n");
 
-        component = new SignatureConfirmationDecorator(component, requiresIdVerification: true);
+        component = new SignatureConfirmationDecorator(component, true);
         Console.WriteLine($"5. Final: {component.GetDescription()}");
         Console.WriteLine($"   Cost: ${component.CalculateCost():F2}\n");
 
@@ -242,7 +237,7 @@ class Program
         Console.WriteLine();
     }
 
-    static void DemonstrateComposite()
+    private static void DemonstrateComposite()
     {
         Console.WriteLine("═══════════════════════════════════════════════════════════════");
         Console.WriteLine("PATTERN 3: COMPOSITE - Hierarchical Package Grouping");
@@ -252,14 +247,14 @@ class Program
         // Create individual packages
         var packages = new List<Package>
         {
-            new Package("PKG-001", "Smartphone", 0.5m, "Electronics Store", "Urban"),
-            new Package("PKG-002", "Tablet", 0.7m, "Electronics Store", "Urban"),
-            new Package("PKG-003", "Headphones", 0.3m, "Electronics Store", "Urban"),
-            new Package("PKG-004", "Smartwatch", 0.2m, "Electronics Store", "Urban"),
-            new Package("PKG-005", "Laptop", 2.5m, "Electronics Store", "Urban"),
-            new Package("PKG-006", "Camera", 1.2m, "Electronics Store", "Urban"),
-            new Package("PKG-007", "Keyboard", 0.8m, "Electronics Store", "Urban"),
-            new Package("PKG-008", "Mouse", 0.15m, "Electronics Store", "Urban")
+            new("PKG-001", "Smartphone", 0.5m, "Electronics Store", "Urban"),
+            new("PKG-002", "Tablet", 0.7m, "Electronics Store", "Urban"),
+            new("PKG-003", "Headphones", 0.3m, "Electronics Store", "Urban"),
+            new("PKG-004", "Smartwatch", 0.2m, "Electronics Store", "Urban"),
+            new("PKG-005", "Laptop", 2.5m, "Electronics Store", "Urban"),
+            new("PKG-006", "Camera", 1.2m, "Electronics Store", "Urban"),
+            new("PKG-007", "Keyboard", 0.8m, "Electronics Store", "Urban"),
+            new("PKG-008", "Mouse", 0.15m, "Electronics Store", "Urban")
         };
 
         Console.WriteLine("--- Simple Container Hierarchy ---");
@@ -291,7 +286,7 @@ class Program
         Console.WriteLine();
     }
 
-    static void DemonstrateFacade()
+    private static void DemonstrateFacade()
     {
         Console.WriteLine("═══════════════════════════════════════════════════════════════");
         Console.WriteLine("PATTERN 4: FACADE - Simplified Logistics Operations");
@@ -299,7 +294,7 @@ class Program
         Console.WriteLine("Purpose: Provide simple interface to complex subsystem\n");
 
         // Create facade (uses creational patterns internally)
-        var facade = new LogisticsFacade("Urban");
+        var facade = new LogisticsFacade();
 
         // Display system status
         facade.DisplaySystemStatus();
@@ -308,8 +303,8 @@ class Program
         Console.WriteLine("--- Creating Simple Shipment via Facade ---");
         var packages = new List<Package>
         {
-            new Package("PKG-FAC-001", "Books", 5m, "Library", "Urban"),
-            new Package("PKG-FAC-002", "Documents", 1m, "Office", "Urban")
+            new("PKG-FAC-001", "Books", 5m, "Library", "Urban"),
+            new("PKG-FAC-002", "Documents", 1m, "Office", "Urban")
         };
 
         var shipment = facade.CreateSimpleShipment(packages);
@@ -319,16 +314,16 @@ class Program
         Console.WriteLine("--- Creating Premium Shipment via Facade ---");
         var premiumPackages = new List<Package>
         {
-            new Package("PKG-PREM-001", "Pharmaceutical Samples", 2m, "Hospital", "Urban") 
-            { RequiresRefrigeration = true },
-            new Package("PKG-PREM-002", "Medical Equipment", 8m, "Clinic", "Urban")
+            new("PKG-PREM-001", "Pharmaceutical Samples", 2m, "Hospital", "Urban")
+                { RequiresRefrigeration = true },
+            new("PKG-PREM-002", "Medical Equipment", 8m, "Clinic", "Urban")
         };
 
         var premiumShipment = facade.CreatePremiumShipment(
             premiumPackages,
-            insuranceValue: 5000m,
-            priorityLevel: "Urgent",
-            requiresTemperatureControl: true
+            5000m,
+            "Urgent",
+            true
         );
 
         Console.WriteLine("\n--- Processing Premium Shipment ---");
@@ -338,7 +333,7 @@ class Program
         Console.WriteLine("\n--- Complete Shipment Workflow via Facade ---");
         var workflowPackages = new List<Package>
         {
-            new Package("PKG-WF-001", "Electronics", 3m, "Tech Store", "Urban")
+            new("PKG-WF-001", "Electronics", 3m, "Tech Store", "Urban")
         };
 
         var trackingSystem = new GpsTrackingAdapter();
@@ -351,7 +346,7 @@ class Program
         Console.WriteLine();
     }
 
-    static void DemonstrateBridge()
+    private static void DemonstrateBridge()
     {
         Console.WriteLine("═══════════════════════════════════════════════════════════════");
         Console.WriteLine("PATTERN 5: BRIDGE - Decouple Abstraction from Implementation");
@@ -402,7 +397,7 @@ class Program
         Console.WriteLine();
     }
 
-    static void DemonstrateFlyweight()
+    private static void DemonstrateFlyweight()
     {
         Console.WriteLine("═══════════════════════════════════════════════════════════════");
         Console.WriteLine("PATTERN 6: FLYWEIGHT - Share Common Data Efficiently");
@@ -417,30 +412,30 @@ class Program
         var packages = new List<FlyweightPackage>();
 
         Console.WriteLine("Creating Electronics packages:");
-        packages.Add(new FlyweightPackage("PKG-001", 2.5m, "TechStore", "Customer A", "TRACK-001", 
+        packages.Add(new FlyweightPackage("PKG-001", 2.5m, "TechStore", "Customer A", "TRACK-001",
             factory.GetPackageType("electronics")));
-        packages.Add(new FlyweightPackage("PKG-002", 1.8m, "TechStore", "Customer B", "TRACK-002", 
+        packages.Add(new FlyweightPackage("PKG-002", 1.8m, "TechStore", "Customer B", "TRACK-002",
             factory.GetPackageType("electronics")));
-        packages.Add(new FlyweightPackage("PKG-003", 3.2m, "TechStore", "Customer C", "TRACK-003", 
+        packages.Add(new FlyweightPackage("PKG-003", 3.2m, "TechStore", "Customer C", "TRACK-003",
             factory.GetPackageType("electronics")));
 
         Console.WriteLine("\nCreating Books packages:");
-        packages.Add(new FlyweightPackage("PKG-004", 5.0m, "Bookstore", "Library", "TRACK-004", 
+        packages.Add(new FlyweightPackage("PKG-004", 5.0m, "Bookstore", "Library", "TRACK-004",
             factory.GetPackageType("books")));
-        packages.Add(new FlyweightPackage("PKG-005", 4.5m, "Bookstore", "School", "TRACK-005", 
+        packages.Add(new FlyweightPackage("PKG-005", 4.5m, "Bookstore", "School", "TRACK-005",
             factory.GetPackageType("books")));
 
         Console.WriteLine("\nCreating Pharmaceuticals packages:");
-        packages.Add(new FlyweightPackage("PKG-006", 1.2m, "MedSupply", "Hospital", "TRACK-006", 
+        packages.Add(new FlyweightPackage("PKG-006", 1.2m, "MedSupply", "Hospital", "TRACK-006",
             factory.GetPackageType("pharmaceuticals")));
-        packages.Add(new FlyweightPackage("PKG-007", 0.8m, "MedSupply", "Clinic", "TRACK-007", 
+        packages.Add(new FlyweightPackage("PKG-007", 0.8m, "MedSupply", "Clinic", "TRACK-007",
             factory.GetPackageType("pharmaceuticals")));
 
         Console.WriteLine("\nCreating more Electronics (reusing flyweight):");
-        packages.Add(new FlyweightPackage("PKG-008", 2.1m, "TechStore", "Customer D", "TRACK-008", 
+        packages.Add(new FlyweightPackage("PKG-008", 2.1m, "TechStore", "Customer D", "TRACK-008",
             factory.GetPackageType("electronics")));
 
-        Console.WriteLine($"\n--- Flyweight Statistics ---");
+        Console.WriteLine("\n--- Flyweight Statistics ---");
         Console.WriteLine($"Total Packages Created: {packages.Count}");
         Console.WriteLine($"Unique PackageType Flyweights: {factory.GetFlyweightCount()}");
         Console.WriteLine($"Memory Saved: {packages.Count - factory.GetFlyweightCount()} type definitions");
@@ -456,7 +451,7 @@ class Program
         Console.WriteLine();
     }
 
-    static void DemonstrateProxy()
+    private static void DemonstrateProxy()
     {
         Console.WriteLine("═══════════════════════════════════════════════════════════════");
         Console.WriteLine("PATTERN 7: PROXY - Control Access and Lazy Loading");
@@ -471,10 +466,10 @@ class Program
 
         IShipmentReport lazyReport = new LazyShipmentReportProxy(shipmentId);
         Console.WriteLine("Proxy created - report not loaded yet");
-        
+
         Console.WriteLine("\nGetting summary (no loading needed):");
         Console.WriteLine($"   {lazyReport.GetSummary()}");
-        
+
         Console.WriteLine("\nDisplaying report (triggers loading):");
         lazyReport.Display();
 
@@ -503,13 +498,13 @@ class Program
         Console.WriteLine("Caches results to avoid repeated expensive operations\n");
 
         IShipmentReport cachingReport = new CachingShipmentReportProxy("SHP-CACHE-001");
-        
+
         Console.WriteLine("First PDF export (cache miss):");
         cachingReport.ExportToPdf();
-        
+
         Console.WriteLine("\nSecond PDF export (cache hit):");
         cachingReport.ExportToPdf();
-        
+
         Console.WriteLine("\nThird PDF export (still cached):");
         cachingReport.ExportToPdf();
 
@@ -521,7 +516,7 @@ class Program
         Console.WriteLine();
     }
 
-    static void DemonstrateIntegratedScenario()
+    private static void DemonstrateIntegratedScenario()
     {
         Console.WriteLine("\n═══════════════════════════════════════════════════════════════");
         Console.WriteLine("INTEGRATED SCENARIO - All Structural Patterns Working Together");
@@ -542,21 +537,23 @@ class Program
             "urban-template", "ROUTE-INT-001", "Integrated Demo Route");
 
         var factory = new UrbanLogisticsFactory();
-        var drivers = new List<Driver> { factory.CreateDriver("D401", "Captain Alice Johnson", DriverLicenseType.Aviation) };
+        var drivers = new List<Driver>
+            { factory.CreateDriver("D401", "Captain Alice Johnson", DriverLicenseType.Aviation) };
         var driverPool = new DriverPool(drivers);
 
         // COMPOSITE PATTERN: Create hierarchical package structure
         Console.WriteLine("--- 1. COMPOSITE: Hierarchical Package Grouping ---");
         var packages = new List<Package>
         {
-            new Package("PKG-INT-001", "Medical Supplies", 25m, "Hospital A", "Urban") { RequiresRefrigeration = true },
-            new Package("PKG-INT-002", "Lab Equipment", 45m, "Research Center", "Urban"),
-            new Package("PKG-INT-003", "Documents", 2m, "City Hall", "Urban"),
-            new Package("PKG-INT-004", "Vaccines", 5m, "Clinic B", "Urban") { RequiresRefrigeration = true }
+            new("PKG-INT-001", "Medical Supplies", 25m, "Hospital A", "Urban") { RequiresRefrigeration = true },
+            new("PKG-INT-002", "Lab Equipment", 45m, "Research Center", "Urban"),
+            new("PKG-INT-003", "Documents", 2m, "City Hall", "Urban"),
+            new("PKG-INT-004", "Vaccines", 5m, "Clinic B", "Urban") { RequiresRefrigeration = true }
         };
 
         var packageHierarchy = PackageCompositeBuilder.CreatePallet("PALLET-INT-001", packages, 2);
-        Console.WriteLine($"Created hierarchy: {packageHierarchy.GetTotalWeight()}kg, {packageHierarchy.GetPackageCount()} packages\n");
+        Console.WriteLine(
+            $"Created hierarchy: {packageHierarchy.GetTotalWeight()}kg, {packageHierarchy.GetPackageCount()} packages\n");
 
         // Build shipment using builder (infrastructure)
         var vehicle = vehiclePool.Acquire();
@@ -591,10 +588,7 @@ class Program
         // FACADE PATTERN: Validate using simplified interface
         Console.WriteLine("--- 4. FACADE: Simplified Validation ---");
         var service = new ShipmentService();
-        if (service.ValidateShipment(shipment))
-        {
-            Console.WriteLine("Shipment validation PASSED\n");
-        }
+        if (service.ValidateShipment(shipment)) Console.WriteLine("Shipment validation PASSED\n");
 
         // BRIDGE PATTERN: Control vehicle with different implementations
         Console.WriteLine("--- 5. BRIDGE: Vehicle Control Abstraction ---");
@@ -634,5 +628,28 @@ class Program
         Console.WriteLine("\nNote: Creational patterns (Singleton, Factory, Builder, Prototype, Pool)");
         Console.WriteLine("      used internally for object creation infrastructure.");
         Console.WriteLine("═══════════════════════════════════════════════════════════════\n");
+    }
+
+    // ═══════════════════════════════════════════════════════════════
+    // Helper Methods
+    // ═══════════════════════════════════════════════════════════════
+
+    private static void PrintSectionHeader(string patternName, string description)
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("\n═══════════════════════════════════════════════════════════════");
+        Console.WriteLine($"  {patternName}");
+        Console.WriteLine($"  {description}");
+        Console.WriteLine("═══════════════════════════════════════════════════════════════");
+        Console.ResetColor();
+    }
+
+    private static void PrintBenefits(params string[] benefits)
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Benefits:");
+        Console.ResetColor();
+        foreach (var benefit in benefits) Console.WriteLine($"  - {benefit}");
+        Console.WriteLine();
     }
 }

@@ -17,7 +17,7 @@ public class RfidTrackingAdapter : ITrackingSystem
     {
         _rfidApi = new RfidTrackingApi();
     }
-    
+
     /// <inheritdoc />
     public string SystemName => "RFID Tracking System";
 
@@ -28,7 +28,7 @@ public class RfidTrackingAdapter : ITrackingSystem
         var scanData = _rfidApi.ScanRfidTag(identifier);
         var location = scanData["location"];
         var scanTime = scanData["last_scan_time"];
-        
+
         return $"{SystemName}: Package at {location} (Last scanned: {scanTime:HH:mm})";
     }
 
@@ -37,9 +37,9 @@ public class RfidTrackingAdapter : ITrackingSystem
     {
         // Adapt: Convert dictionary list to string list with formatting
         var scanHistory = _rfidApi.GetScanHistory(identifier);
-        
-        return scanHistory.Select(scan => 
-            $"{SystemName} - [{((DateTime)scan["time"]):HH:mm}] {scan["location"]}"
+
+        return scanHistory.Select(scan =>
+            $"{SystemName} - [{(DateTime)scan["time"]:HH:mm}] {scan["location"]}"
         ).ToList();
     }
 

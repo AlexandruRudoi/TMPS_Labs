@@ -28,7 +28,7 @@ public class ShipmentService : IShipmentService
     public Shipment CreateShipment(IEnumerable<Package> packages, Vehicle vehicle, Driver driver, Route route)
     {
         var packageList = packages.ToList();
-        
+
         var shipment = new Shipment
         {
             Id = GenerateShipmentId(),
@@ -41,7 +41,7 @@ public class ShipmentService : IShipmentService
         };
 
         shipment.CalculateTotalWeight();
-        
+
         return shipment;
     }
 
@@ -59,25 +59,24 @@ public class ShipmentService : IShipmentService
 
         if (shipment.TotalWeight > shipment.AssignedVehicle.Capacity)
         {
-            Console.WriteLine($"ERROR: Total weight ({shipment.TotalWeight}kg) exceeds vehicle capacity ({shipment.AssignedVehicle.Capacity}kg)");
+            Console.WriteLine(
+                $"ERROR: Total weight ({shipment.TotalWeight}kg) exceeds vehicle capacity ({shipment.AssignedVehicle.Capacity}kg)");
             return false;
         }
 
         if (!shipment.AssignedDriver.CanOperate(shipment.AssignedVehicle.Type))
         {
-            Console.WriteLine($"ERROR: Driver/Operator {shipment.AssignedDriver.Name} cannot operate {shipment.AssignedVehicle.Type}");
+            Console.WriteLine(
+                $"ERROR: Driver/Operator {shipment.AssignedDriver.Name} cannot operate {shipment.AssignedVehicle.Type}");
             return false;
         }
 
         if (shipment.AssignedVehicle.Region != shipment.AssignedDriver.Region)
-        {
-            Console.WriteLine($"WARNING: Vehicle and driver regions don't match");
-        }
+            Console.WriteLine("WARNING: Vehicle and driver regions don't match");
 
         if (shipment.Route.TotalDistance > _config.MaxDailyDistance)
-        {
-            Console.WriteLine($"WARNING: Route distance ({shipment.Route.TotalDistance}km) exceeds daily limit ({_config.MaxDailyDistance}km)");
-        }
+            Console.WriteLine(
+                $"WARNING: Route distance ({shipment.Route.TotalDistance}km) exceeds daily limit ({_config.MaxDailyDistance}km)");
 
         return true;
     }
@@ -93,13 +92,13 @@ public class ShipmentService : IShipmentService
         Console.WriteLine($"\nVehicle: {shipment.AssignedVehicle.GetVehicleInfo()}");
         Console.WriteLine($"Driver: {shipment.AssignedDriver.Name} (License: {shipment.AssignedDriver.LicenseType})");
         Console.WriteLine($"\nRoute: {shipment.Route.GetRouteInfo()}");
-        
+
         var fuelCost = shipment.AssignedVehicle.CalculateFuelCost(shipment.Route.TotalDistance);
         Console.WriteLine($"Estimated Fuel Cost: ${fuelCost:F2}");
-        
+
         if (!string.IsNullOrEmpty(shipment.Notes))
             Console.WriteLine($"Notes: {shipment.Notes}");
-        
+
         Console.WriteLine("------------------------\n");
     }
 

@@ -16,10 +16,10 @@ public class LegacyGpsSystem
         var random = new Random();
         var latitude = 40.0 + random.NextDouble() * 5.0;
         var longitude = -74.0 + random.NextDouble() * 5.0;
-        
+
         return $"GPS: {latitude:F6}, {longitude:F6}";
     }
-    
+
     /// <summary>
     ///     Gets vehicle movement log
     /// </summary>
@@ -33,7 +33,7 @@ public class LegacyGpsSystem
             $"[{DateTime.Now:HH:mm}] Current location"
         };
     }
-    
+
     /// <summary>
     ///     Calculates arrival time based on distance and speed
     /// </summary>

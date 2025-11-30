@@ -8,16 +8,6 @@ namespace Lab_3.Domain.Entities.Vehicles;
 public class ContainerVessel : Vehicle
 {
     /// <summary>
-    ///     Gets or sets the capacity in Twenty-foot Equivalent Units
-    /// </summary>
-    public int TEUCapacity { get; set; }
-
-    /// <summary>
-    ///     Gets or sets whether the vessel has refrigerated container capability
-    /// </summary>
-    public bool HasRefrigeratedContainers { get; set; }
-
-    /// <summary>
     ///     Initializes a new instance of the ContainerVessel class
     /// </summary>
     /// <param name="id">Unique identifier</param>
@@ -32,14 +22,24 @@ public class ContainerVessel : Vehicle
         HasRefrigeratedContainers = false;
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    ///     Gets or sets the capacity in Twenty-foot Equivalent Units
+    /// </summary>
+    public int TEUCapacity { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether the vessel has refrigerated container capability
+    /// </summary>
+    public bool HasRefrigeratedContainers { get; set; }
+
+    /// <inheritdoc />
     public override decimal CalculateFuelCost(decimal distance)
     {
         var baseCost = distance * 3.00m;
-        return HasRefrigeratedContainers ? baseCost + (distance * 0.50m) : baseCost;
+        return HasRefrigeratedContainers ? baseCost + distance * 0.50m : baseCost;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string GetVehicleInfo()
     {
         return

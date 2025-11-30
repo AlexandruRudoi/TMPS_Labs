@@ -15,7 +15,8 @@ public class FragileHandlingDecorator : ShipmentDecorator
     /// </summary>
     /// <param name="shipment">The shipment requiring fragile handling</param>
     /// <param name="specialInstructions">Special handling instructions</param>
-    public FragileHandlingDecorator(IShipmentComponent shipment, string specialInstructions = "Handle with extreme care")
+    public FragileHandlingDecorator(IShipmentComponent shipment,
+        string specialInstructions = "Handle with extreme care")
         : base(shipment)
     {
         _specialInstructions = specialInstructions;
@@ -40,6 +41,6 @@ public class FragileHandlingDecorator : ShipmentDecorator
         base.Process();
         Console.WriteLine($"  Fragile handling applied (Fee: ${_handlingFee:F2})");
         Console.WriteLine($"    Instructions: {_specialInstructions}");
-        Console.WriteLine($"    WARNING: FRAGILE - Use protective packaging");
+        Console.WriteLine("    WARNING: FRAGILE - Use protective packaging");
     }
 }

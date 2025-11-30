@@ -23,6 +23,26 @@ public class RoutePrototypeManager : IRoutePrototype
         InitializeDefaultTemplates();
     }
 
+    /// <inheritdoc />
+    public Route Clone()
+    {
+        var firstTemplate = _routeTemplates.Values.FirstOrDefault();
+        return firstTemplate?.Clone();
+    }
+
+    /// <inheritdoc />
+    public Route CloneWithModifications(string newId, string newName)
+    {
+        var template = _routeTemplates.Values.FirstOrDefault();
+        if (template == null)
+            throw new InvalidOperationException("No templates available");
+
+        var clone = template.Clone();
+        clone.Id = newId;
+        clone.Name = newName;
+        return clone;
+    }
+
     /// <summary>
     ///     Creates default route templates for urban, rural, and express routes
     /// </summary>
@@ -99,32 +119,12 @@ public class RoutePrototypeManager : IRoutePrototype
     }
 
     /// <inheritdoc />
-    public Route Clone()
-    {
-        var firstTemplate = _routeTemplates.Values.FirstOrDefault();
-        return firstTemplate?.Clone();
-    }
-
-    /// <inheritdoc />
     public Route CloneTemplate(string templateKey)
     {
         if (!_routeTemplates.ContainsKey(templateKey))
             throw new ArgumentException($"Template '{templateKey}' not found");
 
         return _routeTemplates[templateKey].Clone();
-    }
-
-    /// <inheritdoc />
-    public Route CloneWithModifications(string newId, string newName)
-    {
-        var template = _routeTemplates.Values.FirstOrDefault();
-        if (template == null)
-            throw new InvalidOperationException("No templates available");
-
-        var clone = template.Clone();
-        clone.Id = newId;
-        clone.Name = newName;
-        return clone;
     }
 
     /// <inheritdoc />

@@ -24,6 +24,7 @@ public class LazyShipmentReportProxy : IShipmentReport
             Console.WriteLine($"   Proxy: Initializing real report for {_shipmentId}...");
             _realReport = new ShipmentReport(_shipmentId);
         }
+
         _realReport.Load();
     }
 
@@ -31,9 +32,10 @@ public class LazyShipmentReportProxy : IShipmentReport
     {
         if (_realReport == null)
         {
-            Console.WriteLine($"   Proxy: First access - creating real report...");
+            Console.WriteLine("   Proxy: First access - creating real report...");
             _realReport = new ShipmentReport(_shipmentId);
         }
+
         _realReport.Display();
     }
 
@@ -41,9 +43,10 @@ public class LazyShipmentReportProxy : IShipmentReport
     {
         if (_realReport == null)
         {
-            Console.WriteLine($"   Proxy: Creating real report for PDF export...");
+            Console.WriteLine("   Proxy: Creating real report for PDF export...");
             _realReport = new ShipmentReport(_shipmentId);
         }
+
         return _realReport.ExportToPdf();
     }
 

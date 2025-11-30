@@ -8,6 +8,24 @@ namespace Lab_3.Domain.Entities.Vehicles;
 public abstract class Vehicle
 {
     /// <summary>
+    ///     Initializes a new instance of the Vehicle class
+    /// </summary>
+    /// <param name="id">Unique identifier</param>
+    /// <param name="licensePlate">License plate or registration</param>
+    /// <param name="type">Type of vehicle</param>
+    /// <param name="capacity">Maximum cargo capacity in kg</param>
+    /// <param name="region">Operational region</param>
+    protected Vehicle(string id, string licensePlate, VehicleType type, decimal capacity, string region)
+    {
+        Id = id;
+        LicensePlate = licensePlate;
+        Type = type;
+        Capacity = capacity;
+        Region = region;
+        Status = VehicleStatus.Available;
+    }
+
+    /// <summary>
     ///     Gets or sets the unique identifier for the vehicle
     /// </summary>
     public string Id { get; set; }
@@ -38,24 +56,6 @@ public abstract class Vehicle
     public VehicleStatus Status { get; set; }
 
     /// <summary>
-    ///     Initializes a new instance of the Vehicle class
-    /// </summary>
-    /// <param name="id">Unique identifier</param>
-    /// <param name="licensePlate">License plate or registration</param>
-    /// <param name="type">Type of vehicle</param>
-    /// <param name="capacity">Maximum cargo capacity in kg</param>
-    /// <param name="region">Operational region</param>
-    protected Vehicle(string id, string licensePlate, VehicleType type, decimal capacity, string region)
-    {
-        Id = id;
-        LicensePlate = licensePlate;
-        Type = type;
-        Capacity = capacity;
-        Region = region;
-        Status = VehicleStatus.Available;
-    }
-
-    /// <summary>
     ///     Calculates the fuel cost for a given distance
     /// </summary>
     /// <param name="distance">Distance in kilometers or nautical miles</param>
@@ -74,6 +74,6 @@ public abstract class Vehicle
     /// <returns>Cloned vehicle instance</returns>
     public Vehicle Clone()
     {
-        return (Vehicle)this.MemberwiseClone();
+        return (Vehicle)MemberwiseClone();
     }
 }

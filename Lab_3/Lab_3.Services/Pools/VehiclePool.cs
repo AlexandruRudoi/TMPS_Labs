@@ -22,13 +22,7 @@ public class VehiclePool : IResourcePool<Vehicle>
     /// <summary>
     ///     Lock object for thread-safe operations
     /// </summary>
-    private readonly object _lock = new object();
-
-    /// <inheritdoc />
-    public int AvailableCount => _available.Count;
-
-    /// <inheritdoc />
-    public int TotalCount => _available.Count + _inUse.Count;
+    private readonly object _lock = new();
 
     /// <summary>
     ///     Initializes a new instance with the specified vehicles
@@ -41,14 +35,17 @@ public class VehiclePool : IResourcePool<Vehicle>
     }
 
     /// <inheritdoc />
+    public int AvailableCount => _available.Count;
+
+    /// <inheritdoc />
+    public int TotalCount => _available.Count + _inUse.Count;
+
+    /// <inheritdoc />
     public Vehicle Acquire()
     {
         lock (_lock)
         {
-            if (_available.Count == 0)
-            {
-                throw new InvalidOperationException("No vehicles available in the pool");
-            }
+            if (_available.Count == 0) throw new InvalidOperationException("No vehicles available in the pool");
 
             var vehicle = _available[0];
             _available.RemoveAt(0);
@@ -56,6 +53,20 @@ public class VehiclePool : IResourcePool<Vehicle>
 
             vehicle.Status = VehicleStatus.InUse;
             return vehicle;
+        }
+    }
+
+    /// <inheritdoc />
+    public void Release(Vehicle vehicle)
+    {
+        lock (_lock)
+        {
+            if (!_inUse.Contains(vehicle)) throw new InvalidOperationException("Vehicle is not currently in use");
+
+            _inUse.Remove(vehicle);
+            _available.Add(vehicle);
+
+            vehicle.Status = VehicleStatus.Available;
         }
     }
 
@@ -71,33 +82,13 @@ public class VehiclePool : IResourcePool<Vehicle>
         {
             var vehicle = _available.FirstOrDefault(v => v.Type == type);
 
-            if (vehicle == null)
-            {
-                throw new InvalidOperationException($"No {type} vehicles available in the pool");
-            }
+            if (vehicle == null) throw new InvalidOperationException($"No {type} vehicles available in the pool");
 
             _available.Remove(vehicle);
             _inUse.Add(vehicle);
 
             vehicle.Status = VehicleStatus.InUse;
             return vehicle;
-        }
-    }
-
-    /// <inheritdoc />
-    public void Release(Vehicle vehicle)
-    {
-        lock (_lock)
-        {
-            if (!_inUse.Contains(vehicle))
-            {
-                throw new InvalidOperationException("Vehicle is not currently in use");
-            }
-
-            _inUse.Remove(vehicle);
-            _available.Add(vehicle);
-
-            vehicle.Status = VehicleStatus.Available;
         }
     }
 

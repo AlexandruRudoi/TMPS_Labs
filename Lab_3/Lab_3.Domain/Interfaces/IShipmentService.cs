@@ -1,6 +1,5 @@
 using Lab_3.Domain.Entities;
 using Lab_3.Domain.Entities.Vehicles;
-using Lab_3.Domain.Entities;
 
 namespace Lab_3.Domain.Interfaces;
 

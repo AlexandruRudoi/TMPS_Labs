@@ -8,19 +8,28 @@
         {
           "timestamp": "2024-11-30T08:00:00",
           "location": "Warehouse A - Loading Dock 3",
-          "coordinates": { "lat": 40.7128, "lng": -74.0060 },
+          "coordinates": {
+            "lat": 40.7128,
+            "lng": -74.0060
+          },
           "status": "Loaded"
         },
         {
           "timestamp": "2024-11-30T09:15:00",
           "location": "Interstate I-95 North",
-          "coordinates": { "lat": 40.8500, "lng": -73.9500 },
+          "coordinates": {
+            "lat": 40.8500,
+            "lng": -73.9500
+          },
           "status": "In Transit"
         },
         {
           "timestamp": "2024-11-30T10:30:00",
           "location": "Distribution Center B",
-          "coordinates": { "lat": 40.9800, "lng": -73.8200 },
+          "coordinates": {
+            "lat": 40.9800,
+            "lng": -73.8200
+          },
           "status": "In Transit"
         }
       ],

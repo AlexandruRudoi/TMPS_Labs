@@ -18,7 +18,7 @@ public abstract class VehicleOperation
     }
 
     public abstract void Execute();
-    
+
     public virtual string GetOperationInfo()
     {
         return $"Vehicle {_vehicleId} using {_control.GetControlType()}";

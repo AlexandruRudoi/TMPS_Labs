@@ -15,19 +15,19 @@ public class RuralLogisticsFactory : ILogisticsFactory
     /// <inheritdoc />
     public Vehicle CreateStandardVehicle(string id, string licensePlate)
     {
-        return new CargoTruck(id, licensePlate, 8000m, Region, axleCount: 4, hasTrailer: true);
+        return new CargoTruck(id, licensePlate, 8000m, Region, 4);
     }
 
     /// <inheritdoc />
     public Vehicle CreateHeavyVehicle(string id, string licensePlate)
     {
-        return new CargoTruck(id, licensePlate, 15000m, Region, axleCount: 5, hasTrailer: true);
+        return new CargoTruck(id, licensePlate, 15000m, Region, 5);
     }
 
     /// <inheritdoc />
     public Vehicle CreateLightVehicle(string id, string licensePlate)
     {
-        return new DeliveryTruck(id, licensePlate, 2000m, Region, hasRefrigeration: true);
+        return new DeliveryTruck(id, licensePlate, 2000m, Region, true);
     }
 
     /// <inheritdoc />

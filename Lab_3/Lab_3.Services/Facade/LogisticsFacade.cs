@@ -19,11 +19,11 @@ public class LogisticsFacade
 {
     // Subsystem components
     private readonly LogisticsConfig _config;
-    private readonly VehicleFactory _vehicleFactory;
     private readonly RoutePrototypeManager _routeManager;
     private readonly ShipmentService _shipmentService;
-    private VehiclePool _vehiclePool;
+    private readonly VehicleFactory _vehicleFactory;
     private DriverPool _driverPool;
+    private VehiclePool _vehiclePool;
 
     /// <summary>
     ///     Initializes a new instance of the LogisticsFacade
@@ -67,10 +67,7 @@ public class LogisticsFacade
             ? _vehiclePool.AcquireByType(vehicleType.Value)
             : _vehiclePool.Acquire();
 
-        if (vehicle == null)
-        {
-            throw new InvalidOperationException("No vehicles available in pool");
-        }
+        if (vehicle == null) throw new InvalidOperationException("No vehicles available in pool");
 
         // 3. Acquire driver from pool
         var driver = _driverPool.AcquireWithLicense(GetRequiredLicense(vehicle.Type));
@@ -131,19 +128,14 @@ public class LogisticsFacade
         component = new InsuranceDecorator(component, insuranceValue);
         component = new PriorityDecorator(component, priorityLevel);
 
-        if (requiresTemperatureControl)
-        {
-            component = new TemperatureMonitoringDecorator(component);
-        }
+        if (requiresTemperatureControl) component = new TemperatureMonitoringDecorator(component);
 
         // Check if any package is fragile (simplified check)
         if (packages.Any(p => p.Description.Contains("fragile", StringComparison.OrdinalIgnoreCase) ||
                               p.Description.Contains("glass", StringComparison.OrdinalIgnoreCase)))
-        {
             component = new FragileHandlingDecorator(component);
-        }
 
-        component = new SignatureConfirmationDecorator(component, requiresIdVerification: true);
+        component = new SignatureConfirmationDecorator(component, true);
 
         Console.WriteLine($"Premium shipment created: {component.GetDescription()}");
         Console.WriteLine($"Total cost: ${component.CalculateCost():F2}");
@@ -174,10 +166,7 @@ public class LogisticsFacade
 
         var history = trackingSystem.GetTrackingHistory(shipment.Id);
         Console.WriteLine("\n   Tracking History:");
-        foreach (var entry in history)
-        {
-            Console.WriteLine($"   {entry}");
-        }
+        foreach (var entry in history) Console.WriteLine($"   {entry}");
 
         var eta = trackingSystem.GetEstimatedDelivery(shipment.Id);
         Console.WriteLine($"\n   Estimated Delivery: {eta:yyyy-MM-dd HH:mm}");
@@ -219,7 +208,6 @@ public class LogisticsFacade
         var shipments = new List<Shipment>();
 
         foreach (var packages in packageGroups)
-        {
             try
             {
                 var shipment = CreateSimpleShipment(packages);
@@ -229,7 +217,6 @@ public class LogisticsFacade
             {
                 Console.WriteLine($"WARNING: Failed to create shipment: {ex.Message}");
             }
-        }
 
         Console.WriteLine($"Created {shipments.Count}/{packageGroups.Count} shipments successfully");
         return shipments;
@@ -258,10 +245,7 @@ public class LogisticsFacade
         Console.WriteLine($"   In Use: {_driverPool.TotalCount - _driverPool.AvailableCount}");
 
         Console.WriteLine("\n Available Route Templates:");
-        foreach (var template in _routeManager.GetAvailableTemplates())
-        {
-            Console.WriteLine($"   - {template}");
-        }
+        foreach (var template in _routeManager.GetAvailableTemplates()) Console.WriteLine($"   - {template}");
 
         Console.WriteLine("═══════════════════════════════════════════════════════════════\n");
     }
@@ -275,9 +259,9 @@ public class LogisticsFacade
         var vehicles = new List<Vehicle>
         {
             _vehicleFactory.CreateDeliveryTruck("V-POOL-001", "DT-001", 1500m, true),
-            _vehicleFactory.CreateDeliveryTruck("V-POOL-002", "DT-002", 1500m, false),
+            _vehicleFactory.CreateDeliveryTruck("V-POOL-002", "DT-002", 1500m),
             _vehicleFactory.CreateCargoTruck("V-POOL-003", "CT-001", 8000m, 4),
-            _vehicleFactory.CreateDrone("V-POOL-004", "DRN-001", 25m, true),
+            _vehicleFactory.CreateDrone("V-POOL-004", "DRN-001", 25m),
             _vehicleFactory.CreateCargoPlane("V-POOL-005", "CP-001", 50000m, "Boeing 777F")
         };
 
@@ -286,11 +270,11 @@ public class LogisticsFacade
         // Create initial drivers
         var drivers = new List<Driver>
         {
-            new Driver("D-POOL-001", "John Smith", region, DriverLicenseType.Delivery),
-            new Driver("D-POOL-002", "Jane Doe", region, DriverLicenseType.Commercial),
-            new Driver("D-POOL-003", "Bob Johnson", region, DriverLicenseType.Drone),
-            new Driver("D-POOL-004", "Alice Williams", region, DriverLicenseType.Aviation),
-            new Driver("D-POOL-005", "Charlie Brown", region, DriverLicenseType.Maritime)
+            new("D-POOL-001", "John Smith", region, DriverLicenseType.Delivery),
+            new("D-POOL-002", "Jane Doe", region, DriverLicenseType.Commercial),
+            new("D-POOL-003", "Bob Johnson", region, DriverLicenseType.Drone),
+            new("D-POOL-004", "Alice Williams", region, DriverLicenseType.Aviation),
+            new("D-POOL-005", "Charlie Brown", region, DriverLicenseType.Maritime)
         };
 
         _driverPool = new DriverPool(drivers);

@@ -8,21 +8,6 @@ namespace Lab_3.Domain.Entities.Vehicles;
 public class Drone : Vehicle
 {
     /// <summary>
-    ///     Gets or sets the battery capacity as a percentage
-    /// </summary>
-    public decimal BatteryCapacity { get; set; }
-
-    /// <summary>
-    ///     Gets or sets the maximum flight time in minutes
-    /// </summary>
-    public decimal MaxFlightTime { get; set; }
-
-    /// <summary>
-    ///     Gets or sets whether the drone operates autonomously
-    /// </summary>
-    public bool IsAutonomous { get; set; }
-
-    /// <summary>
     ///     Initializes a new instance of the Drone class
     /// </summary>
     /// <param name="id">Unique identifier</param>
@@ -38,13 +23,28 @@ public class Drone : Vehicle
         IsAutonomous = isAutonomous;
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    ///     Gets or sets the battery capacity as a percentage
+    /// </summary>
+    public decimal BatteryCapacity { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the maximum flight time in minutes
+    /// </summary>
+    public decimal MaxFlightTime { get; set; }
+
+    /// <summary>
+    ///     Gets or sets whether the drone operates autonomously
+    /// </summary>
+    public bool IsAutonomous { get; set; }
+
+    /// <inheritdoc />
     public override decimal CalculateFuelCost(decimal distance)
     {
         return distance * 0.05m;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string GetVehicleInfo()
     {
         return

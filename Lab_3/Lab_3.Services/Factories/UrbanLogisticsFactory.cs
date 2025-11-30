@@ -15,7 +15,7 @@ public class UrbanLogisticsFactory : ILogisticsFactory
     /// <inheritdoc />
     public Vehicle CreateStandardVehicle(string id, string licensePlate)
     {
-        return new DeliveryTruck(id, licensePlate, 1500m, Region, hasRefrigeration: false);
+        return new DeliveryTruck(id, licensePlate, 1500m, Region);
     }
 
     /// <inheritdoc />
@@ -27,7 +27,7 @@ public class UrbanLogisticsFactory : ILogisticsFactory
     /// <inheritdoc />
     public Vehicle CreateLightVehicle(string id, string licensePlate)
     {
-        return new Drone(id, licensePlate, 25m, Region, isAutonomous: true);
+        return new Drone(id, licensePlate, 25m, Region);
     }
 
     /// <inheritdoc />

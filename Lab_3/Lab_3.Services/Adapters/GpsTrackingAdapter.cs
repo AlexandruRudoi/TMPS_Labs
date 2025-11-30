@@ -17,7 +17,7 @@ public class GpsTrackingAdapter : ITrackingSystem
     {
         _gpsSystem = new LegacyGpsSystem();
     }
-    
+
     /// <inheritdoc />
     public string SystemName => "GPS Tracking System";
 

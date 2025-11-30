@@ -15,13 +15,13 @@ public class InternationalLogisticsFactory : ILogisticsFactory
     /// <inheritdoc />
     public Vehicle CreateStandardVehicle(string id, string licensePlate)
     {
-        return new CargoShip(id, licensePlate, 100000m, Region, containerCapacity: 200);
+        return new CargoShip(id, licensePlate, 100000m, Region, 200);
     }
 
     /// <inheritdoc />
     public Vehicle CreateHeavyVehicle(string id, string licensePlate)
     {
-        return new ContainerVessel(id, licensePlate, 250000m, Region, teuCapacity: 1000);
+        return new ContainerVessel(id, licensePlate, 250000m, Region, 1000);
     }
 
     /// <inheritdoc />

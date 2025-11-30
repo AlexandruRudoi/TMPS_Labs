@@ -22,13 +22,7 @@ public class DriverPool : IResourcePool<Driver>
     /// <summary>
     ///     Lock object for thread-safe operations
     /// </summary>
-    private readonly object _lock = new object();
-
-    /// <inheritdoc />
-    public int AvailableCount => _available.Count;
-
-    /// <inheritdoc />
-    public int TotalCount => _available.Count + _inUse.Count;
+    private readonly object _lock = new();
 
     /// <summary>
     ///     Initializes a new instance with the specified drivers
@@ -41,14 +35,17 @@ public class DriverPool : IResourcePool<Driver>
     }
 
     /// <inheritdoc />
+    public int AvailableCount => _available.Count;
+
+    /// <inheritdoc />
+    public int TotalCount => _available.Count + _inUse.Count;
+
+    /// <inheritdoc />
     public Driver Acquire()
     {
         lock (_lock)
         {
-            if (_available.Count == 0)
-            {
-                throw new InvalidOperationException("No drivers available in the pool");
-            }
+            if (_available.Count == 0) throw new InvalidOperationException("No drivers available in the pool");
 
             var driver = _available[0];
             _available.RemoveAt(0);
@@ -56,6 +53,20 @@ public class DriverPool : IResourcePool<Driver>
 
             driver.Status = DriverStatus.OnRoute;
             return driver;
+        }
+    }
+
+    /// <inheritdoc />
+    public void Release(Driver driver)
+    {
+        lock (_lock)
+        {
+            if (!_inUse.Contains(driver)) throw new InvalidOperationException("Driver is not currently in use");
+
+            _inUse.Remove(driver);
+            _available.Add(driver);
+
+            driver.Status = DriverStatus.Available;
         }
     }
 
@@ -72,33 +83,14 @@ public class DriverPool : IResourcePool<Driver>
             var driver = _available.FirstOrDefault(d => d.LicenseType >= minLicenseType);
 
             if (driver == null)
-            {
                 throw new InvalidOperationException(
                     $"No drivers with license type {minLicenseType} or higher available");
-            }
 
             _available.Remove(driver);
             _inUse.Add(driver);
 
             driver.Status = DriverStatus.OnRoute;
             return driver;
-        }
-    }
-
-    /// <inheritdoc />
-    public void Release(Driver driver)
-    {
-        lock (_lock)
-        {
-            if (!_inUse.Contains(driver))
-            {
-                throw new InvalidOperationException("Driver is not currently in use");
-            }
-
-            _inUse.Remove(driver);
-            _available.Add(driver);
-
-            driver.Status = DriverStatus.Available;
         }
     }
 

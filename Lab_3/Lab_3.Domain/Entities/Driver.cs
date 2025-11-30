@@ -8,6 +8,22 @@ namespace Lab_3.Domain.Entities;
 public class Driver
 {
     /// <summary>
+    ///     Initializes a new instance of the Driver class
+    /// </summary>
+    /// <param name="id">Unique identifier</param>
+    /// <param name="name">Driver's full name</param>
+    /// <param name="region">Operational region</param>
+    /// <param name="licenseType">License type held</param>
+    public Driver(string id, string name, string region, DriverLicenseType licenseType)
+    {
+        Id = id;
+        Name = name;
+        Region = region;
+        LicenseType = licenseType;
+        Status = DriverStatus.Available;
+    }
+
+    /// <summary>
     ///     Gets or sets the unique identifier for the driver
     /// </summary>
     public string Id { get; set; }
@@ -31,22 +47,6 @@ public class Driver
     ///     Gets or sets the current status of the driver
     /// </summary>
     public DriverStatus Status { get; set; }
-
-    /// <summary>
-    ///     Initializes a new instance of the Driver class
-    /// </summary>
-    /// <param name="id">Unique identifier</param>
-    /// <param name="name">Driver's full name</param>
-    /// <param name="region">Operational region</param>
-    /// <param name="licenseType">License type held</param>
-    public Driver(string id, string name, string region, DriverLicenseType licenseType)
-    {
-        Id = id;
-        Name = name;
-        Region = region;
-        LicenseType = licenseType;
-        Status = DriverStatus.Available;
-    }
 
     /// <summary>
     ///     Determines if the driver can operate a specific vehicle type

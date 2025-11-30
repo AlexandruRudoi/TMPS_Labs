@@ -15,7 +15,10 @@ public class RemoteControl : IVehicleControl
         _operatorId = operatorId;
     }
 
-    public string GetControlType() => $"Remote Control (Operator: {_operatorId})";
+    public string GetControlType()
+    {
+        return $"Remote Control (Operator: {_operatorId})";
+    }
 
     public string Start()
     {

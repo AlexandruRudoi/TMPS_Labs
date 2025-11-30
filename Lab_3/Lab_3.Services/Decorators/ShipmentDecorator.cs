@@ -21,17 +21,32 @@ public abstract class ShipmentDecorator : IShipmentComponent
     }
 
     /// <inheritdoc />
-    public virtual string GetId() => _wrappedShipment.GetId();
+    public virtual string GetId()
+    {
+        return _wrappedShipment.GetId();
+    }
 
     /// <inheritdoc />
-    public virtual string GetDescription() => _wrappedShipment.GetDescription();
+    public virtual string GetDescription()
+    {
+        return _wrappedShipment.GetDescription();
+    }
 
     /// <inheritdoc />
-    public virtual decimal CalculateCost() => _wrappedShipment.CalculateCost();
+    public virtual decimal CalculateCost()
+    {
+        return _wrappedShipment.CalculateCost();
+    }
 
     /// <inheritdoc />
-    public virtual void Process() => _wrappedShipment.Process();
+    public virtual void Process()
+    {
+        _wrappedShipment.Process();
+    }
 
     /// <inheritdoc />
-    public Shipment GetShipment() => _wrappedShipment.GetShipment();
+    public Shipment GetShipment()
+    {
+        return _wrappedShipment.GetShipment();
+    }
 }

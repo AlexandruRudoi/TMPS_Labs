@@ -8,6 +8,21 @@ namespace Lab_3.Domain.Entities;
 public class Route
 {
     /// <summary>
+    ///     Initializes a new instance of the Route class
+    /// </summary>
+    /// <param name="id">Unique identifier</param>
+    /// <param name="name">Route name</param>
+    /// <param name="region">Operational region</param>
+    public Route(string id, string name, string region)
+    {
+        Id = id;
+        Name = name;
+        Region = region;
+        Waypoints = new List<string>();
+        Type = RouteType.Standard;
+    }
+
+    /// <summary>
     ///     Gets or sets the unique identifier for the route
     /// </summary>
     public string Id { get; set; }
@@ -43,21 +58,6 @@ public class Route
     public RouteType Type { get; set; }
 
     /// <summary>
-    ///     Initializes a new instance of the Route class
-    /// </summary>
-    /// <param name="id">Unique identifier</param>
-    /// <param name="name">Route name</param>
-    /// <param name="region">Operational region</param>
-    public Route(string id, string name, string region)
-    {
-        Id = id;
-        Name = name;
-        Region = region;
-        Waypoints = new List<string>();
-        Type = RouteType.Standard;
-    }
-
-    /// <summary>
     ///     Creates a deep clone of the route
     /// </summary>
     /// <returns>Cloned route instance</returns>
@@ -65,10 +65,10 @@ public class Route
     {
         var clone = new Route(Id, Name, Region)
         {
-            TotalDistance = this.TotalDistance,
-            EstimatedDuration = this.EstimatedDuration,
-            Type = this.Type,
-            Waypoints = new List<string>(this.Waypoints)
+            TotalDistance = TotalDistance,
+            EstimatedDuration = EstimatedDuration,
+            Type = Type,
+            Waypoints = new List<string>(Waypoints)
         };
         return clone;
     }

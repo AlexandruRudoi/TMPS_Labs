@@ -19,7 +19,7 @@ public class RfidTrackingApi
             { "status_code", 200 }
         };
     }
-    
+
     /// <summary>
     ///     Gets all scan events for a tag
     /// </summary>
@@ -32,7 +32,7 @@ public class RfidTrackingApi
             new() { { "location", "Distribution Center B - Zone 3" }, { "time", DateTime.Now } }
         };
     }
-    
+
     /// <summary>
     ///     Predicts delivery based on RFID scan patterns
     /// </summary>

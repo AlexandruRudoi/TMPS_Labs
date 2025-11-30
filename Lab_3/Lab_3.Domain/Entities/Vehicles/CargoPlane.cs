@@ -8,21 +8,6 @@ namespace Lab_3.Domain.Entities.Vehicles;
 public class CargoPlane : Vehicle
 {
     /// <summary>
-    ///     Gets or sets the aircraft model designation
-    /// </summary>
-    public string AircraftModel { get; set; }
-
-    /// <summary>
-    ///     Gets or sets the maximum flight range in kilometers
-    /// </summary>
-    public decimal MaxFlightRange { get; set; }
-
-    /// <summary>
-    ///     Gets or sets the number of pallet loading positions
-    /// </summary>
-    public int PalletPositions { get; set; }
-
-    /// <summary>
     ///     Initializes a new instance of the CargoPlane class
     /// </summary>
     /// <param name="id">Unique identifier</param>
@@ -38,13 +23,28 @@ public class CargoPlane : Vehicle
         PalletPositions = 30;
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    ///     Gets or sets the aircraft model designation
+    /// </summary>
+    public string AircraftModel { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the maximum flight range in kilometers
+    /// </summary>
+    public decimal MaxFlightRange { get; set; }
+
+    /// <summary>
+    ///     Gets or sets the number of pallet loading positions
+    /// </summary>
+    public int PalletPositions { get; set; }
+
+    /// <inheritdoc />
     public override decimal CalculateFuelCost(decimal distance)
     {
         return distance * 8.00m;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc />
     public override string GetVehicleInfo()
     {
         return

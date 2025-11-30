@@ -19,7 +19,7 @@ public class BarcodeScanner
                 <operator>Scanner-05</operator>
             </scan>";
     }
-    
+
     /// <summary>
     ///     Gets scan history as XML
     /// </summary>
@@ -32,7 +32,7 @@ public class BarcodeScanner
                 <scan><facility>Regional Hub - Sector 7</facility><time>{DateTime.Now:HH:mm}</time></scan>
             </history>";
     }
-    
+
     /// <summary>
     ///     Estimates delivery in hours
     /// </summary>

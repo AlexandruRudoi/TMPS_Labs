@@ -10,22 +10,22 @@ public interface IVehicleControl
     ///     Starts the vehicle
     /// </summary>
     string Start();
-    
+
     /// <summary>
     ///     Stops the vehicle
     /// </summary>
     string Stop();
-    
+
     /// <summary>
     ///     Accelerates the vehicle
     /// </summary>
     string Accelerate();
-    
+
     /// <summary>
     ///     Applies brakes
     /// </summary>
     string Brake();
-    
+
     /// <summary>
     ///     Gets control system type
     /// </summary>

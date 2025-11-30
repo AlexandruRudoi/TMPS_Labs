@@ -1,5 +1,5 @@
-using Lab_3.Domain.Interfaces;
 using System.Text.RegularExpressions;
+using Lab_3.Domain.Interfaces;
 
 namespace Lab_3.Services.Adapters;
 
@@ -18,7 +18,7 @@ public class BarcodeTrackingAdapter : ITrackingSystem
     {
         _scanner = new BarcodeScanner();
     }
-    
+
     /// <inheritdoc />
     public string SystemName => "Barcode Tracking System";
 
@@ -29,7 +29,7 @@ public class BarcodeTrackingAdapter : ITrackingSystem
         var xmlData = _scanner.ScanBarcode(identifier);
         var facility = ExtractXmlValue(xmlData, "facility");
         var timestamp = ExtractXmlValue(xmlData, "timestamp");
-        
+
         return $"{SystemName}: Package at {facility} (Scanned: {timestamp})";
     }
 
@@ -38,16 +38,14 @@ public class BarcodeTrackingAdapter : ITrackingSystem
     {
         // Adapt: Parse XML history and convert to string list
         var xmlHistory = _scanner.GetBarcodeHistory(identifier);
-        
+
         var facilities = Regex.Matches(xmlHistory, @"<facility>(.*?)</facility>");
         var times = Regex.Matches(xmlHistory, @"<time>(.*?)</time>");
-        
+
         var history = new List<string>();
-        for (int i = 0; i < facilities.Count && i < times.Count; i++)
-        {
+        for (var i = 0; i < facilities.Count && i < times.Count; i++)
             history.Add($"{SystemName} - [{times[i].Groups[1].Value}] {facilities[i].Groups[1].Value}");
-        }
-        
+
         return history;
     }
 
@@ -58,7 +56,7 @@ public class BarcodeTrackingAdapter : ITrackingSystem
         var hours = _scanner.EstimateDeliveryHours(identifier);
         return DateTime.Now.AddHours(hours);
     }
-    
+
     /// <summary>
     ///     Extracts value from simple XML tag
     /// </summary>

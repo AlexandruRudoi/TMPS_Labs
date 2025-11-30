@@ -9,8 +9,8 @@ namespace Lab_3.Services.Proxy;
 public class ShipmentReport : IShipmentReport
 {
     private readonly string _shipmentId;
-    private string _reportData;
     private bool _isLoaded;
+    private string _reportData;
 
     public ShipmentReport(string shipmentId)
     {
@@ -24,10 +24,10 @@ public class ShipmentReport : IShipmentReport
         {
             Console.WriteLine($"   Loading heavy report data for shipment {_shipmentId}...");
             Thread.Sleep(1000); // Simulate expensive database/API call
-            
+
             _reportData = GenerateReportData();
             _isLoaded = true;
-            
+
             Console.WriteLine($"   Report data loaded ({_reportData.Length} characters)");
         }
     }
@@ -49,7 +49,7 @@ public class ShipmentReport : IShipmentReport
         if (!_isLoaded)
             Load();
 
-        Console.WriteLine($"   Exporting report to PDF...");
+        Console.WriteLine("   Exporting report to PDF...");
         Thread.Sleep(500); // Simulate PDF generation
         var filename = $"Report_{_shipmentId}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
         Console.WriteLine($"   PDF exported: {filename}");

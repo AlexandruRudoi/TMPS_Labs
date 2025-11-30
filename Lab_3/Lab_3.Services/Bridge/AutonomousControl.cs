@@ -8,7 +8,10 @@ namespace Lab_3.Services.Bridge;
 /// </summary>
 public class AutonomousControl : IVehicleControl
 {
-    public string GetControlType() => "Autonomous Control";
+    public string GetControlType()
+    {
+        return "Autonomous Control";
+    }
 
     public string Start()
     {
