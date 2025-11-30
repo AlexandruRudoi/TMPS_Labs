@@ -1,0 +1,50 @@
+using Lab_3.Domain.Entities;
+using Lab_3.Domain.Entities.Vehicles;
+using Lab_3.Domain.Enums;
+using Lab_3.Domain.Factory;
+
+namespace Lab_3.Services.Factories;
+
+/// <summary>
+///     Rural region logistics factory for countryside delivery operations
+/// </summary>
+public class RuralLogisticsFactory : ILogisticsFactory
+{
+    private const string Region = "Rural";
+
+    /// <inheritdoc />
+    public Vehicle CreateStandardVehicle(string id, string licensePlate)
+    {
+        return new CargoTruck(id, licensePlate, 8000m, Region, 4);
+    }
+
+    /// <inheritdoc />
+    public Vehicle CreateHeavyVehicle(string id, string licensePlate)
+    {
+        return new CargoTruck(id, licensePlate, 15000m, Region, 5);
+    }
+
+    /// <inheritdoc />
+    public Vehicle CreateLightVehicle(string id, string licensePlate)
+    {
+        return new DeliveryTruck(id, licensePlate, 2000m, Region, true);
+    }
+
+    /// <inheritdoc />
+    public Driver CreateDriver(string id, string name, DriverLicenseType licenseType)
+    {
+        return new Driver(id, name, Region, licenseType);
+    }
+
+    /// <inheritdoc />
+    public string GetRegion()
+    {
+        return Region;
+    }
+
+    /// <inheritdoc />
+    public decimal GetRegionalFuelMultiplier()
+    {
+        return 0.9m;
+    }
+}
